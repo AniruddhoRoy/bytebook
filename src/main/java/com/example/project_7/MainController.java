@@ -36,7 +36,7 @@ public class MainController {
     @FXML
     private void openButtonHandeler(){
         parentStage = (Stage) rootNode.getScene().getWindow();
-        String[] types = {".dt"};
+        String[] types = {CONSTANTS.Applicaiton_Extention};
         String path = LIB.fileOpenDialog(parentStage,types);
         if(path!=null)
         {

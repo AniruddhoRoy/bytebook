@@ -1,10 +1,7 @@
 package com.example.project_7;
 
 
-import com.example.project_7.COMPONENTS.Base_Component;
-import com.example.project_7.COMPONENTS.Component_Base_Classes;
-import com.example.project_7.COMPONENTS.Image_Component;
-import com.example.project_7.COMPONENTS.Image_Component_Class;
+import com.example.project_7.COMPONENTS.*;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -19,11 +16,16 @@ import javafx.stage.StageStyle;
 import java.util.ArrayList;
 
 public class EditPageController {
+    public static EditPageController instance;
     Process_Class process = new Process_Class();
-    ArrayList<Base_Component> components = new ArrayList<>();
+    public ArrayList<Base_Component> components = new ArrayList<>();
     Stage parentStage;
     boolean isPriviouslySaved = false;
     String filePath;
+    @FXML
+    public void initialize() {
+        instance = this;
+    }
     @FXML
     private BorderPane rootNode;
     @FXML
@@ -44,6 +46,9 @@ public class EditPageController {
             if(component instanceof Image_Component){
                 process.components.add(((Image_Component) component).export());
             }
+            else if (component instanceof Heading_Component) {
+                process.components.add(((Heading_Component) component).export());
+            }
         }
         if(!isPriviouslySaved){
             String path = LIB.directoryChooser(parentStage);
@@ -59,12 +64,15 @@ public class EditPageController {
 
     }
     //custom Methods
-    void refresh(){
+    public void refresh(){
         containerNode.getChildren().clear();
         for(Base_Component component : components)
         {
             if(component instanceof Image_Component){
                 containerNode.getChildren().add(((Image_Component) component).getIamgecomponent(parentStage));
+            }
+            else if(component instanceof Heading_Component){
+                containerNode.getChildren().add(((Heading_Component) component).getHeadingComponent());
             }
         }
     }
@@ -77,10 +85,12 @@ public class EditPageController {
         stage.initModality(Modality.APPLICATION_MODAL);
         VBox root = new VBox();
         root.setPadding(new Insets(15));
+        root.setSpacing(10);
         HBox row1 = getHbox();
         HBox row2 = getHbox();
         HBox row3 = getHbox();
         row1.getChildren().add(new Image_Component().getComponentButton(components,stage));
+        row2.getChildren().add(new Heading_Component().getComponentButton(components,stage));
         root.getChildren().addAll(row1,row2,row3);
         Scene scene = new Scene(root,400,300);
         new LIB().setIconAndTitle(stage, CONSTANTS.Applicaiton_icon_path,"Select Item");

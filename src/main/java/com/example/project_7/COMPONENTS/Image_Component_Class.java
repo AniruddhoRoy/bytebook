@@ -15,4 +15,5 @@ public class Image_Component_Class extends Component_Base_Classes implements Ser
     public String toString(){
         return (path+" "+size);
     }
+
 }

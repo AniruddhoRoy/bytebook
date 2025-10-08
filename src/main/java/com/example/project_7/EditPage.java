@@ -1,6 +1,7 @@
 package com.example.project_7;
 
 import com.example.project_7.COMPONENTS.Component_Base_Classes;
+import com.example.project_7.COMPONENTS.Heading_Component_Class;
 import com.example.project_7.COMPONENTS.Image_Component_Class;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -38,6 +39,9 @@ public class EditPage {
             for(Component_Base_Classes components : process.components){
                 if(components instanceof Image_Component_Class){
                     editPageController.components.add(((Image_Component_Class) components).export());
+                }
+                else if(components instanceof Heading_Component_Class){
+                    editPageController.components.add(((Heading_Component_Class) components).export());
                 }
             }
             editPageController.isPriviouslySaved = true;

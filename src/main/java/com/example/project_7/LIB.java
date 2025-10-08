@@ -1,4 +1,7 @@
 package com.example.project_7;
+import com.example.project_7.COMPONENTS.Base_Component;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.DirectoryChooser;
@@ -74,5 +77,22 @@ public class LIB {
 
         // Regex: only letters, digits, underscores, and hyphens allowed
         return fileName.matches("[a-zA-Z0-9_-]+");
+    }
+    public  static void DeleteComponent(String id){
+       EditPageController editPageController = EditPageController.instance;
+        if (editPageController == null) {
+            System.out.println("Error: EditPageController instance is null!");
+            return;
+        }
+
+        for (Base_Component component : editPageController.components) {
+            if (component.id.equals(id)) {
+                editPageController.components.remove(component);
+                System.out.println("Component Found and Removed");
+                break;
+            }
+        }
+
+        editPageController.refresh();
     }
 }

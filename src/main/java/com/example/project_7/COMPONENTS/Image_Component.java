@@ -49,6 +49,7 @@ public class Image_Component extends Base_Component{
         ContextMenu contextMenu = new ContextMenu();
         MenuItem loadImage = new MenuItem("LoadImage");
         Menu size = new Menu("Size");
+        MenuItem delete = new MenuItem("Delete");
         MenuItem x1 = new MenuItem("1x");
         MenuItem x2 = new MenuItem("2x");
         MenuItem x3 = new MenuItem("3x");
@@ -59,8 +60,8 @@ public class Image_Component extends Base_Component{
         x4.setOnAction(e -> imageView.setFitHeight(400));
 // Add items to submenu
         size.getItems().addAll(x1, x2, x3, x4);
-
-        contextMenu.getItems().addAll(loadImage, size);
+        delete.setOnAction(this::delete);
+        contextMenu.getItems().addAll(loadImage, size,delete);
         loadImage.setOnAction(e->{
             String[] types = {"png", "jpg", "jpeg", "gif", "bmp", "webp"};
             String path = new LIB().fileOpenDialog(stage,types);
