@@ -68,6 +68,7 @@ public class EditPageController {
     //custom Methods
     public void refresh(){
         containerNode.getChildren().clear();
+        containerNode.setSpacing(10);
         for(Base_Component component : components)
         {
             if(component instanceof Image_Component){
@@ -77,6 +78,9 @@ public class EditPageController {
                 containerNode.getChildren().add(((Heading_Component) component).getHeadingComponent());
             } else if (component instanceof Media_Component) {
                 containerNode.getChildren().add(((Media_Component) component).getMediaComponent(parentStage));
+            }
+            else if(component instanceof Paragraph_Component){
+                containerNode.getChildren().add(((Paragraph_Component) component).getPragraphComponent());
             }
         }
     }
@@ -93,11 +97,13 @@ public class EditPageController {
         HBox row1 = getHbox();
         row1.setSpacing(10);
         HBox row2 = getHbox();
+        row2.setSpacing(10);
         HBox row3 = getHbox();
         row1.getChildren().add(new Image_Component().getComponentButton(components,stage));
         row1.getChildren().add(new Media_Component(true).getComponentButton(components,stage));
         row1.getChildren().add(new Media_Component(false).getComponentButton(components,stage));
         row2.getChildren().add(new Heading_Component().getComponentButton(components,stage));
+        row2.getChildren().add(new Paragraph_Component().getComponentButton(components,stage));
         root.getChildren().addAll(row1,row2,row3);
         Scene scene = new Scene(root,400,300);
         new LIB().setIconAndTitle(stage, CONSTANTS.Applicaiton_icon_path,"Select Item");

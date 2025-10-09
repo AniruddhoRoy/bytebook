@@ -15,7 +15,7 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("Main.fxml"));
         Scene scene = new Scene(loader.load());
-        stage.setTitle(CONSTANTS.Applicaiton_Name);
+        new LIB().setIconAndTitle(stage,CONSTANTS.Applicaiton_icon_path,"ByteBook");
         stage.setScene(scene);
         stage.show();
     }
