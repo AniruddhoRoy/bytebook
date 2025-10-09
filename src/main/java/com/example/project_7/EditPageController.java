@@ -48,6 +48,9 @@ public class EditPageController {
             else if (component instanceof Heading_Component) {
                 process.components.add(((Heading_Component) component).export());
             }
+            else if(component instanceof Media_Component){
+                process.components.add(((Media_Component) component).export());
+            }
         }
         if(!isPriviouslySaved){
             String path = LIB.directoryChooser(parentStage);
@@ -73,7 +76,7 @@ public class EditPageController {
             else if(component instanceof Heading_Component){
                 containerNode.getChildren().add(((Heading_Component) component).getHeadingComponent());
             } else if (component instanceof Media_Component) {
-                containerNode.getChildren().add(((Media_Component) component).getMediaCOmponent(parentStage));
+                containerNode.getChildren().add(((Media_Component) component).getMediaComponent(parentStage));
             }
         }
     }

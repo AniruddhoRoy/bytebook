@@ -3,6 +3,7 @@ package com.example.project_7;
 import com.example.project_7.COMPONENTS.Component_Base_Classes;
 import com.example.project_7.COMPONENTS.Heading_Component_Class;
 import com.example.project_7.COMPONENTS.Image_Component_Class;
+import com.example.project_7.COMPONENTS.Media_Component_Class;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -42,6 +43,9 @@ public class EditPage {
                 }
                 else if(components instanceof Heading_Component_Class){
                     editPageController.components.add(((Heading_Component_Class) components).export());
+                }
+                else if(components instanceof Media_Component_Class){
+                    editPageController.components.add(((Media_Component_Class) components).export());
                 }
             }
             editPageController.isPriviouslySaved = true;

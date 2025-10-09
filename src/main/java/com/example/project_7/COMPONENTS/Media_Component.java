@@ -8,7 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -37,6 +36,44 @@ public class Media_Component extends Base_Component{
         this.isVideo = isVideo;
         initCOmponent();
     }
+    public Media_Component(String mediaPath,Double size,boolean isVideo){
+        this.isVideo = isVideo;
+        this.size = size;
+        this.mediaPath = mediaPath;
+        initCOmponent();
+        File file = new File(mediaPath);
+
+        // 🔹 Detach and safely dispose old player
+        if (mediaView != null) mediaView.setMediaPlayer(null);
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.dispose();
+            mediaPlayer = null;
+        }
+
+        media = new Media(file.toURI().toString());
+        mediaPlayer = new MediaPlayer(media);
+        mediaView = new MediaView(mediaPlayer);
+        mediaView.setPreserveRatio(true);
+        mediaView.setFitHeight(size);
+        mediaView.fitWidthProperty().bind(root.widthProperty());
+
+        addContextMenuToMediaContent();
+
+        root.getChildren().clear();
+
+        // 🔹 Wait until ready before showing video
+        mediaPlayer.setOnReady(() -> {
+            if (isVideo) {
+                root.getChildren().add(mediaView);
+            } else {
+                imageView = new LIB().loadImageView(CONSTANTS.Media_music_disk_icon, size);
+                addContextMenuTOImageVIew();
+                root.getChildren().add(imageView);
+            }
+            addMediaControlButtons();
+    });
+    }
     void initCOmponent(){
         root = new VBox();
         root.setAlignment(Pos.CENTER);
@@ -47,40 +84,51 @@ public class Media_Component extends Base_Component{
         else {
         imageView = new LIB().loadImageView(CONSTANTS.Media_music_icon,this.size);
         }
-        addCOntextMenuTOImageVIew();
+        addContextMenuTOImageVIew();
         root.getChildren().add(imageView);
     }
-    void loadMediaHandeler(ActionEvent e){
-        String[] types;
-        if (isVideo) {
-            types = new String[]{"mp4", "mkv", "avi", "mov", "wmv", "flv", "webm", "mpeg", "mpg", "3gp"};
-        } else {
-            types = new String[]{"mp3", "wav", "aac", "flac", "ogg", "m4a", "wma", "alac", "aiff", "opus"};
-        }
+void loadMediaHandeler(ActionEvent e){
+    String[] types = isVideo
+            ? new String[]{"mp4", "mkv", "avi", "mov", "wmv", "flv", "webm", "mpeg", "mpg", "3gp"}
+            : new String[]{"mp3", "wav", "aac", "flac", "ogg", "m4a", "wma", "alac", "aiff", "opus"};
 
-        String path = new LIB().fileOpenDialog(parentStage,types);
-        if(path!=null){
-            mediaPath = path;
-            File file = new File(path);
-            media = new Media(file.toURI().toString());
-            mediaPlayer = new MediaPlayer(media);
-            mediaPlayer.setAutoPlay(false);
-            mediaView = new MediaView(mediaPlayer);
-            root.getChildren().clear();
-            mediaView.preserveRatioProperty().setValue(true);
-            mediaView.setFitHeight(size);
-            addContextMenuToMediaContent();
+    String path = new LIB().fileOpenDialog(parentStage, types);
+    if (path == null) return;
 
-            if(isVideo){
-                root.getChildren().add(mediaView);
-            }else{
-                imageView = new LIB().loadImageView(CONSTANTS.Media_music_disk_icon,size);
-                addCOntextMenuTOImageVIew();
-                root.getChildren().add(imageView);
-            }
-            addMediaControlButtons();
-        }
+    mediaPath = path;
+    File file = new File(path);
+
+    // 🔹 Detach and safely dispose old player
+    if (mediaView != null) mediaView.setMediaPlayer(null);
+    if (mediaPlayer != null) {
+        mediaPlayer.stop();
+        mediaPlayer.dispose();
+        mediaPlayer = null;
     }
+
+    media = new Media(file.toURI().toString());
+    mediaPlayer = new MediaPlayer(media);
+    mediaView = new MediaView(mediaPlayer);
+    mediaView.setPreserveRatio(true);
+    mediaView.setFitHeight(size);
+    mediaView.fitWidthProperty().bind(root.widthProperty());
+
+    addContextMenuToMediaContent();
+
+    root.getChildren().clear();
+
+    // 🔹 Wait until ready before showing video
+    mediaPlayer.setOnReady(() -> {
+        if (isVideo) {
+            root.getChildren().add(mediaView);
+        } else {
+            imageView = new LIB().loadImageView(CONSTANTS.Media_music_disk_icon, size);
+            addContextMenuTOImageVIew();
+            root.getChildren().add(imageView);
+        }
+        addMediaControlButtons();
+    });
+}
     void addContextMenuToMediaContent(){
         ContextMenu contextMenu = new ContextMenu();
         MenuItem loadMedia = new MenuItem("Load Media");
@@ -103,7 +151,16 @@ public class Media_Component extends Base_Component{
             contextMenu.show(mediaView,event.getScreenX(), event.getScreenY());
         });
     }
-    void addCOntextMenuTOImageVIew(){
+    //Custom Delete Method
+    @Override
+    void delete(ActionEvent e) {
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.dispose();
+        }
+        root.getChildren().clear();
+    }
+    void addContextMenuTOImageVIew(){
         ContextMenu contextMenu = new ContextMenu();
         MenuItem loadMedia = new MenuItem("Load Media");
         loadMedia.setOnAction(this::loadMediaHandeler);
@@ -141,7 +198,7 @@ public class Media_Component extends Base_Component{
         controlsButton.getChildren().addAll(playButton,pauseButton,resetButton);
         root.getChildren().add(controlsButton);
     }
-    public  VBox getMediaCOmponent(Stage stage){
+    public  VBox getMediaComponent(Stage stage){
 
         this.parentStage = stage;
         return root;
@@ -159,6 +216,9 @@ public class Media_Component extends Base_Component{
             childStage.close();
         });
         return button;
+    }
+    public Media_Component_Class export(){
+        return new Media_Component_Class(this.mediaPath,this.size,this.isVideo);
     }
 
 
