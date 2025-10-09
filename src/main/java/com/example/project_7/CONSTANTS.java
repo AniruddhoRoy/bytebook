@@ -9,6 +9,7 @@ public class CONSTANTS {
     public static final String Applicaiton_Extention = ".bbk";
     public static final String Applicaiton_Name = "ByteBook";
     public static final int Component_id_lenght = 6;
+
     //Heading Component
     public static final String Heading_Component_Icon = "/Heading_Image.png";
     public static final Pair<String, String>[] Background_colors = new Pair[] {
@@ -75,5 +76,8 @@ public class CONSTANTS {
             new Pair<>("Lighter", "-fx-font-weight: lighter;"),
 
     };
-
+    //Media component
+    public static final String Media_Video_icon = "/Default_video_icon.png";
+    public static final String Media_music_icon = "/Default_music_icon.png";
+    public static final String Media_music_disk_icon = "/Default_music_disk_icon.png";
 }

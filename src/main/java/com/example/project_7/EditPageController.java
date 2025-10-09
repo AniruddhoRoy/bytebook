@@ -5,7 +5,6 @@ import com.example.project_7.COMPONENTS.*;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -73,6 +72,8 @@ public class EditPageController {
             }
             else if(component instanceof Heading_Component){
                 containerNode.getChildren().add(((Heading_Component) component).getHeadingComponent());
+            } else if (component instanceof Media_Component) {
+                containerNode.getChildren().add(((Media_Component) component).getMediaCOmponent(parentStage));
             }
         }
     }
@@ -87,9 +88,12 @@ public class EditPageController {
         root.setPadding(new Insets(15));
         root.setSpacing(10);
         HBox row1 = getHbox();
+        row1.setSpacing(10);
         HBox row2 = getHbox();
         HBox row3 = getHbox();
         row1.getChildren().add(new Image_Component().getComponentButton(components,stage));
+        row1.getChildren().add(new Media_Component(true).getComponentButton(components,stage));
+        row1.getChildren().add(new Media_Component(false).getComponentButton(components,stage));
         row2.getChildren().add(new Heading_Component().getComponentButton(components,stage));
         root.getChildren().addAll(row1,row2,row3);
         Scene scene = new Scene(root,400,300);

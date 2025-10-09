@@ -4,6 +4,7 @@ import com.example.project_7.CONSTANTS;
 import com.example.project_7.LIB;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -129,6 +130,7 @@ public class Heading_Component extends Base_Component{
     public VBox getHeadingComponent(){
         return root;
     }
+
     public Button getComponentButton(ArrayList<Base_Component> components, Stage childStage){
         Button button = new Button();
         button.setGraphic(new LIB().loadImageView(CONSTANTS.Heading_Component_Icon,50));

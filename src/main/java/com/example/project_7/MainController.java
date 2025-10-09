@@ -24,8 +24,9 @@ public class MainController {
     @FXML
     public void initialize(){
 //
+//                "-fx-background-color: linear-gradient(to right, #a0c4ff, #ffffff);"
         rootNode.setStyle(
-                "-fx-background-color: linear-gradient(to right, #a0c4ff, #ffffff);"
+                "-fx-background-color: linear-gradient(to right, #0f2027, #203a43, #2c5364);"
         );
     }
     @FXML

@@ -1,0 +1,29 @@
+.keyword {
+    -fx-fill: #0000FF; /* blue */
+    -fx-font-weight: bold;
+}
+
+.paren {
+    -fx-fill: #FF00FF; /* magenta */
+}
+
+.brace {
+    -fx-fill: #FF4500; /* orange-red */
+}
+
+.semicolon {
+    -fx-fill: black;
+}
+
+.string {
+    -fx-fill: #008000; /* green */
+}
+
+.comment {
+    -fx-fill: #808080; /* gray */
+    -fx-font-style: italic;
+}
+
+.default {
+    -fx-fill: black;
+}
