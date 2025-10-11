@@ -22,9 +22,11 @@ public class Paragraph_Component extends Base_Component {
     WebEngine webEngine = webView.getEngine();
     WebView webViewHtmlEditor = (WebView) htmlEditor.lookup(".web-view");
     VBox root = new VBox();
-    void setHeight(int val){
+    double size = 300;
+    void setHeight(double val){
         webView.setMinHeight(val);
         webViewHtmlEditor.setMinHeight(val);
+        this.size = val;
     }
     void addContextMenu(){
         ContextMenu contextMenu = new ContextMenu();
@@ -49,8 +51,14 @@ public class Paragraph_Component extends Base_Component {
 
     }
     public Paragraph_Component(){
-        setHeight(300);
+        setHeight(size);
       addContextMenu();
+    }
+    public Paragraph_Component(String initialValue,double size){
+        htmlEditor.setHtmlText(initialValue);
+        webEngine.loadContent(initialValue);
+        setHeight(size);
+        addContextMenu();
     }
     public VBox getPragraphComponent() {
 
@@ -82,5 +90,8 @@ public class Paragraph_Component extends Base_Component {
             childStage.close();
         });
         return button;
+    }
+    public Paragraph_Component_Class export(){
+        return new Paragraph_Component_Class(htmlEditor.getHtmlText(),this.size);
     }
 }

@@ -51,6 +51,9 @@ public class EditPageController {
             else if(component instanceof Media_Component){
                 process.components.add(((Media_Component) component).export());
             }
+            else if (component instanceof Paragraph_Component) {
+                process.components.add(((Paragraph_Component) component).export());
+            }
         }
         if(!isPriviouslySaved){
             String path = LIB.directoryChooser(parentStage);
