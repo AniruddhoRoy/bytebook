@@ -6,6 +6,7 @@ module com.example.project_7 {
     requires org.fxmisc.richtext;
     requires org.fxmisc.flowless;
     requires javafx.media;
+    requires reactfx;
 
 
     opens com.example.project_7 to javafx.fxml;

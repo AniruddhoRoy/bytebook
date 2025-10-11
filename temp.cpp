@@ -1,26 +1,14 @@
-#include <bits/stdc++.h>
+#include <iostream>
 
 using namespace std;
-void print(string s){
-	cout<<s<<endl;
+void h(){
+	cout<<"99"<<endl;
 }
 int main() {
-    for(int i = 0 ; i<10;i++){
-	print("I Love You Radha Madhob");
-	}
+    string name ;
+    cout << "Enter your name: "<<endl;
+    cin>>name;
+    cout << "Hello, " << name << "!" << endl;
+	h();
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
