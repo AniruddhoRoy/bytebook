@@ -53,6 +53,7 @@ public class EditPage {
             }
             editPageController.isPriviouslySaved = true;
             editPageController.filePath = this.filePath;
+            editPageController.fileName = this.fileName;
             editPageController.refresh();
         }
         stage.setOnCloseRequest(e->{

@@ -21,6 +21,7 @@ public class EditPageController {
     Stage parentStage;
     boolean isPriviouslySaved = false;
     String filePath;
+    String fileName;
     @FXML
     public void initialize() {
         instance = this;
@@ -35,6 +36,43 @@ public class EditPageController {
         parentStage = (Stage) rootNode.getScene().getWindow();
         showAddItemsDialogBox();
         refresh();
+    }
+    @FXML
+    private void exportToPdfButtonHandeler(){
+        refresh();
+        String html="";
+        for(Base_Component component : components)
+        {
+            if(component instanceof Image_Component){
+                try {
+                    html += ((Image_Component) component).getHtml();
+                }catch (Exception e){
+                    System.out.println("Error Reading image in pdf");
+                }
+            }
+            else if(component instanceof Heading_Component){
+                    html+=((Heading_Component) component).getHtml();
+
+            }
+            else if (component instanceof Media_Component) {
+                try{
+                    html+= ((Media_Component) component).getHtml();
+                }catch (Exception e){
+                    System.out.println("Error Reading media in pdf");
+                }
+            }
+            else if(component instanceof Paragraph_Component){
+                html+= ((Paragraph_Component) component).getHtml();
+            }
+            else if(component instanceof Code_Component_cpp){
+                html+= ((Code_Component_cpp) component).getHtml();
+            }
+        }
+        try {
+        LIB.export_pdf(html,filePath,fileName);
+        }catch (Exception e){
+            System.out.println("Error While Exporting Html");
+        }
     }
     @FXML
      private void saveButtonHandeler(){

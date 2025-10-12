@@ -51,6 +51,30 @@ public class Code_Component_cpp extends Base_Component {
             contextMenu.show(area,event.getScreenX(), event.getScreenY());
         });
     }
+
+
+    public String getHtml() {
+        return """
+                <div style="display: flex; gap: 10px;">
+                        <div style="flex: 1;
+                                    background-color: #e0f7fa;
+                                    padding: 10px;
+                                    border: 1px solid #b2ebf2;
+                                    border-radius: 5px;
+                                    box-sizing: border-box;">
+                            <pre><code>%s</code></pre>
+                        </div>
+                        <div style="flex: 1;
+                                    background-color: #f0fff0;
+                                    padding: 10px;
+                                    border: 1px solid #d0f0c0;
+                                    border-radius: 5px;
+                                    box-sizing: border-box;">
+                            <pre><code>%s</code></pre>
+                        </div>
+                    </div>
+            """.formatted((codeArea.getText()), (terminal.getText()));
+    }
     public Code_Component_cpp(){
         splitPane = new SplitPane();
         updateSize(size);

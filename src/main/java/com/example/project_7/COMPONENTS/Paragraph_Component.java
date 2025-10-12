@@ -94,4 +94,7 @@ public class Paragraph_Component extends Base_Component {
     public Paragraph_Component_Class export(){
         return new Paragraph_Component_Class(htmlEditor.getHtmlText(),this.size);
     }
+    public String getHtml(){
+        return htmlEditor.getHtmlText();
+    };
 }

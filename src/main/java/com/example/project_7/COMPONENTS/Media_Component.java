@@ -2,12 +2,14 @@ package com.example.project_7.COMPONENTS;
 
 import com.example.project_7.CONSTANTS;
 import com.example.project_7.LIB;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -16,8 +18,12 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Base64;
 
 public class Media_Component extends Base_Component{
     private String mediaPath = "";
@@ -34,13 +40,13 @@ public class Media_Component extends Base_Component{
     Button resetButton = new Button("Reset");
     public Media_Component(boolean isVideo){
         this.isVideo = isVideo;
-        initCOmponent();
+        initComponent();
     }
     public Media_Component(String mediaPath,Double size,boolean isVideo){
         this.isVideo = isVideo;
         this.size = size;
         this.mediaPath = mediaPath;
-        initCOmponent();
+        initComponent();
         File file = new File(mediaPath);
 
         // 🔹 Detach and safely dispose old player
@@ -74,7 +80,7 @@ public class Media_Component extends Base_Component{
             addMediaControlButtons();
     });
     }
-    void initCOmponent(){
+    void initComponent(){
         root = new VBox();
         root.setAlignment(Pos.CENTER);
 
@@ -219,6 +225,20 @@ void loadMediaHandeler(ActionEvent e){
     }
     public Media_Component_Class export(){
         return new Media_Component_Class(this.mediaPath,this.size,this.isVideo);
+    }
+    public String getHtml() throws Exception {
+        Image fxImage = imageView.getImage();
+        if (fxImage == null) return "";
+
+        // Convert JavaFX Image to BufferedImage
+        BufferedImage bImage = SwingFXUtils.fromFXImage(fxImage, null);
+
+        // Convert BufferedImage to Base64 string
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        ImageIO.write(bImage, "png", outputStream);
+        String base64 = Base64.getEncoder().encodeToString(outputStream.toByteArray());
+
+        return "<div style=\"display: flex; justify-content: center;\"><img src='data:image/png;base64," + base64 + "' style='width:auto; height:200px;' /></div>";
     }
 
 

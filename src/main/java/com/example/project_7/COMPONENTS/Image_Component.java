@@ -12,8 +12,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
+
+import javafx.embed.swing.SwingFXUtils;
+import javax.imageio.ImageIO;
+import java.io.ByteArrayOutputStream;
+import java.util.Base64;
 
 public class Image_Component extends Base_Component{
     private String  imagePath = "";
@@ -90,5 +96,22 @@ public class Image_Component extends Base_Component{
     }
     public Image_Component_Class export(){
         return new Image_Component_Class(imagePath,imageView.getFitHeight());
+    }
+    public String getHtml()throws Exception{
+
+            Image fxImage = imageView.getImage();
+            if (fxImage == null) return "";
+
+            // Convert JavaFX Image to BufferedImage
+            BufferedImage bImage = SwingFXUtils.fromFXImage(fxImage, null);
+
+            // Convert BufferedImage to Base64 string
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            ImageIO.write(bImage, "png", outputStream);
+            String base64 = Base64.getEncoder().encodeToString(outputStream.toByteArray());
+
+            // Return HTML <img> tag with base64 data
+            return "<img src='data:image/png;base64," + base64 + "' style='max-width:100%; height:auto;' />";
+
     }
 }

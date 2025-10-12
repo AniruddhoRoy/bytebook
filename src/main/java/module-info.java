@@ -7,6 +7,8 @@ module com.example.project_7 {
     requires org.fxmisc.flowless;
     requires javafx.media;
     requires reactfx;
+    requires html2pdf;
+    requires javafx.swing;
 
 
     opens com.example.project_7 to javafx.fxml;

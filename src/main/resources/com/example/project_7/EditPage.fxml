@@ -34,6 +34,7 @@
           <Menu mnemonicParsing="false" text="File">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#saveButtonHandeler" text="Save" />
+                  <MenuItem mnemonicParsing="false" onAction="#exportToPdfButtonHandeler" text="Export to Pdf" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">

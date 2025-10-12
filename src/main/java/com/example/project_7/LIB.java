@@ -1,7 +1,9 @@
 package com.example.project_7;
 import com.example.project_7.COMPONENTS.Base_Component;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
+import com.itextpdf.html2pdf.HtmlConverter;
+import com.itextpdf.html2pdf.HtmlConverter;
+
+import java.io.FileOutputStream;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.DirectoryChooser;
@@ -9,6 +11,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.Random;
 
 public class LIB {
@@ -94,5 +97,39 @@ public class LIB {
         }
 
         editPageController.refresh();
+    }
+    public static void export_pdf(String htmlCode,String filePath,String file_name) throws Exception{
+        String html = """
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                  <meta charset="UTF-8">
+                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                  <title>Reset HTML Template</title>
+                  <style>
+                    /* CSS Reset */
+                    * {
+                      margin: 0;
+                      padding: 0;
+                      box-sizing: border-box;
+                    }
+                                
+                    /* Optional: set default font and background */
+                    body {
+                      display: flex;       
+                        flex-direction: column; 
+                        gap: 5px;
+                    }
+                  </style>
+                </head>
+                <body>
+                                
+                  %s
+                                
+                </body>
+                </html>
+                """.formatted(htmlCode);
+        HtmlConverter.convertToPdf(html, new FileOutputStream(filePath+file_name+".pdf"));
+        System.out.println("✅ PDF created: styled_with_css.pdf");
     }
 }

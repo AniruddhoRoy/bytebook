@@ -151,4 +151,27 @@ public class Heading_Component extends Base_Component{
                 style_font_color
         );
     }
+    String convertFxToHtmlCss(String fxStyle) {
+        return fxStyle
+                .replace("-fx-background-color", "background-color")
+                .replace("-fx-font-weight", "font-weight")
+                .replace("-fx-font-size", "font-size")
+                .replace("-fx-font-family", "font-family")
+                .replace("-fx-text-fill", "color");
+    }
+    public String getHtml(){
+        String combinedStyle = convertFxToHtmlCss(
+                style_background_color+
+                style_font_weight+
+                style_font_Size+
+                style_font_family+
+                style_font_color
+        );
+        combinedStyle+="padding: 10px;";
+
+        String html = """
+    <div style="%s">%s</div>
+                    """.formatted(combinedStyle, heading.getText());
+        return html;
+    };
 }
