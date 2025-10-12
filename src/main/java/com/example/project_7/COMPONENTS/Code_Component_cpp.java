@@ -1,10 +1,10 @@
 package com.example.project_7.COMPONENTS;
-import javafx.application.Application;
+import com.example.project_7.CONSTANTS;
+import com.example.project_7.LIB;
 import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.SplitPane;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Priority;
@@ -14,54 +14,88 @@ import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 
 import java.io.*;
+import java.util.ArrayList;
 
-public class code_component_cpp extends Application {
+public class Code_Component_cpp extends Base_Component {
     private SplitPane splitPane;
     private CodeArea codeArea;
     private CodeArea terminal;
     private int initialLength;
-    public static void main(String[] args) {
-        launch(args);
+    private double size = 400;
+    VBox root = new VBox();
+    void updateSize(double val){
+        this.size = val;
+        splitPane.setMinHeight(this.size);
     }
-
-    @Override
-    public void start(Stage stage) {
-        VBox root = new VBox();
-        root.setAlignment(Pos.CENTER);
-
+    void addContextMenu(CodeArea area){
+        ContextMenu contextMenu = new ContextMenu();
+        Menu size_menu = new Menu("Size");
+        MenuItem delete = new MenuItem("Delete");
+        MenuItem x1 = new MenuItem("1x");
+        MenuItem x2 = new MenuItem("2x");
+        MenuItem x3 = new MenuItem("3x");
+        MenuItem x4 = new MenuItem("4x");
+        x1.setOnAction((e) -> {
+            updateSize(300);});
+        x2.setOnAction((e) -> {
+            updateSize(400);});
+        x3.setOnAction((e) -> {
+            updateSize(500);});
+        x4.setOnAction((e) -> {
+            updateSize(600);});
+// Add items to submenu
+        size_menu.getItems().addAll(x1, x2, x3, x4);
+        delete.setOnAction(this::delete);
+        contextMenu.getItems().addAll(size_menu,delete);
+        area.setOnContextMenuRequested(event ->{
+            contextMenu.show(area,event.getScreenX(), event.getScreenY());
+        });
+    }
+    public Code_Component_cpp(){
         splitPane = new SplitPane();
-//        splitPane.setOrientation(Orientation.VERTICAL);
-        splitPane.setPrefSize(900, 500);
-
+        updateSize(size);
         loadCodeArea();
         loadTerminal();
-
+        addContextMenu(codeArea);
+        addContextMenu(terminal);
+        root.setAlignment(Pos.CENTER);
         root.getChildren().add(splitPane);
-
-        Scene scene = new Scene(root, 900, 500);
-        stage.setScene(scene);
-        stage.setTitle("Code Component Demo");
-        stage.show();
     }
-
+    public Code_Component_cpp(double size,String code ,String output){
+        splitPane = new SplitPane();
+        updateSize(size);
+        loadCodeArea();
+        codeArea.replaceText(code);
+        loadTerminal();
+        terminal.replaceText(output);
+        addContextMenu(codeArea);
+        addContextMenu(terminal);
+        root.setAlignment(Pos.CENTER);
+        root.getChildren().add(splitPane);
+    }
+    public VBox getCodeComponentCpp() {
+        return root;
+    }
+    public Button getComponentButton(ArrayList<Base_Component> components, Stage childStage){
+        Button button = new Button();
+        button.setGraphic(new LIB().loadImageView(CONSTANTS.Cpp_Icon,50));
+        button.setOnAction(e->{
+//            containerNode.getChildren().add(this.getIamgecomponent(childStage));
+            components.add(this);
+            childStage.close();
+        });
+        return button;
+    }
+    public Code_Component_cpp_Class export(){
+        return new Code_Component_cpp_Class(size,codeArea.getText(),terminal.getText());
+    }
     /** Create and add the code editor area */
     private void loadCodeArea() {
         codeArea = new CodeArea();
         codeArea.setWrapText(true);
         codeArea.setStyle("-fx-font-size: 16px; -fx-font-family: 'Consolas';");
         codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
-        codeArea.replaceText("""
-            #include <iostream>
-            
-            using namespace std;
-            int main() {
-                string name ;
-                cout << "Enter your name: "<<endl;
-                cin>>name;
-                cout << "Hello, " << name << "!" << endl;
-                return 0;
-            }
-            """);
+        codeArea.replaceText(CONSTANTS.Cpp_default_snippet);
 
         VBox codeBox = new VBox(codeArea);
         VBox.setVgrow(codeArea, Priority.ALWAYS);
@@ -76,14 +110,7 @@ public class code_component_cpp extends Application {
         terminal = new CodeArea("Byte book compiler v0.7 ==>");
         terminal.setWrapText(true);
 //        terminal.setEditable(false);
-        terminal.setStyle(
-                "-fx-background-color: white;" +
-                        "-fx-font-family: 'Consolas';" +
-                        "-fx-highlight-fill: gray;" +
-                        "-fx-highlight-text-fill: white;" +
-                        "-fx-text-fill: blue;"
-        );
-
+        terminal.setPadding(new Insets(10));
         VBox.setVgrow(terminal, Priority.ALWAYS);
         VBox terminalContainer = new VBox(5, runButton, terminal);
         terminalContainer.setAlignment(Pos.CENTER);
@@ -151,7 +178,11 @@ public class code_component_cpp extends Application {
                      int c;
                      while ((c = reader.read()) != -1) { // read char by char
                          char ch = (char) c;
-                         appendText(terminal,String.valueOf(ch));
+                         int unicode = (int)ch;
+                         if(c!=13){
+
+                             appendText(terminal,String.valueOf(ch));
+                         }
                      }
                  } catch (IOException ignored) {}
              }).start();
@@ -184,8 +215,10 @@ public class code_component_cpp extends Application {
          private void appendText(CodeArea terminal, String text) {
              //this is used because code is running in other threads
              Platform.runLater(() ->{
+
                  terminal.appendText(text);
                  initialLength = terminal.getLength();
+//                 System.out.println(text.codePointAt(0)+ "  "+initialLength);
              });
 
          }

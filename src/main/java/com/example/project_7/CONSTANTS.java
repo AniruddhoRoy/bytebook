@@ -82,5 +82,18 @@ public class CONSTANTS {
     public static final String Media_music_disk_icon = "/Default_music_disk_icon.png";
     //Paragraph Component
     public static final String Paragraph_icon = "/Default_Paragraph_Icon.png";
-
+    //Code component
+    public static final String Cpp_Icon = "/Default_Cpp_Icon.png";
+    public static final String Cpp_default_snippet = """
+            #include <iostream>
+            
+            using namespace std;
+            int main() {
+                string name ;
+                cout << "Enter your name: "<<endl;
+                cin>>name;
+                cout << "Hello, " << name << "!" << endl;
+                return 0;
+            }
+            """;
 }

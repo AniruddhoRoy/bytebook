@@ -54,6 +54,9 @@ public class EditPageController {
             else if (component instanceof Paragraph_Component) {
                 process.components.add(((Paragraph_Component) component).export());
             }
+            else if(component instanceof Code_Component_cpp){
+                process.components.add(((Code_Component_cpp) component).export());
+            }
         }
         if(!isPriviouslySaved){
             String path = LIB.directoryChooser(parentStage);
@@ -85,6 +88,9 @@ public class EditPageController {
             else if(component instanceof Paragraph_Component){
                 containerNode.getChildren().add(((Paragraph_Component) component).getPragraphComponent());
             }
+            else if(component instanceof Code_Component_cpp){
+                containerNode.getChildren().add(((Code_Component_cpp) component).getCodeComponentCpp());
+            }
         }
     }
     //custom dialog
@@ -107,6 +113,7 @@ public class EditPageController {
         row1.getChildren().add(new Media_Component(false).getComponentButton(components,stage));
         row2.getChildren().add(new Heading_Component().getComponentButton(components,stage));
         row2.getChildren().add(new Paragraph_Component().getComponentButton(components,stage));
+        row3.getChildren().add(new Code_Component_cpp().getComponentButton(components,stage));
         root.getChildren().addAll(row1,row2,row3);
         Scene scene = new Scene(root,400,300);
         new LIB().setIconAndTitle(stage, CONSTANTS.Applicaiton_icon_path,"Select Item");

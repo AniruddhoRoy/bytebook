@@ -47,6 +47,9 @@ public class EditPage {
                 else if(components instanceof Paragraph_Component_Class){
                     editPageController.components.add(((Paragraph_Component_Class) components).export());
                 }
+                else if(components instanceof Code_Component_cpp_Class){
+                    editPageController.components.add(((Code_Component_cpp_Class) components).export());
+                }
             }
             editPageController.isPriviouslySaved = true;
             editPageController.filePath = this.filePath;
