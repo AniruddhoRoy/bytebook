@@ -3,10 +3,7 @@ package com.example.project_7.COMPONENTS;
 import com.example.project_7.CONSTANTS;
 import com.example.project_7.LIB;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -19,12 +16,18 @@ public class Image_Component extends Base_Component{
     private String  imagePath = "";
     private double size = 200;
     ImageView imageView ;
-    public Image_Component(){
+    Tooltip tooltip;
+    public Image_Component()
+    {
         imageView = new LIB().loadImageView(CONSTANTS.Default_image_icon_path,150);
+        tooltip=new Tooltip("Add image");
+        Tooltip.install(imageView,tooltip);
     }
     public Image_Component(String imagePath,double size){
         this.imagePath = imagePath;
         this.size = size;
+        tooltip=new Tooltip();
+
         if(!imagePath.isEmpty()){
             imageView = new ImageView();
             imageView.setPreserveRatio(true);
@@ -34,7 +37,9 @@ public class Image_Component extends Base_Component{
             imageView.setFitHeight(size);
         }else{
             imageView = new LIB().loadImageView(CONSTANTS.Default_image_icon_path,size);
+            tooltip.setText("Add image");
         }
+        Tooltip.install(imageView,tooltip);//Attach tooltip
     }
 
     public VBox getIamgecomponent(Stage stage){
@@ -70,6 +75,8 @@ public class Image_Component extends Base_Component{
                 File file = new File(path);
                 Image image = new Image(file.toURI().toString()); // Convert path to URI
                 imageView.setImage(image);
+                //update tooltip text with file name
+                tooltip.setText("Image: "+file.getName());
             }
         });
         // Show ContextMenu on right-click

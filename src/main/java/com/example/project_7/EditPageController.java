@@ -85,6 +85,9 @@ public class EditPageController {
             else if(component instanceof Paragraph_Component){
                 containerNode.getChildren().add(((Paragraph_Component) component).getPragraphComponent());
             }
+            else if (component instanceof Hyperlink_Component){
+                containerNode.getChildren().add(((Hyperlink_Component) component).getHyperlinkComponent());
+            }
         }
     }
     //custom dialog
@@ -107,6 +110,7 @@ public class EditPageController {
         row1.getChildren().add(new Media_Component(false).getComponentButton(components,stage));
         row2.getChildren().add(new Heading_Component().getComponentButton(components,stage));
         row2.getChildren().add(new Paragraph_Component().getComponentButton(components,stage));
+        row2.getChildren().add(new Hyperlink_Component().getComponentButton(components,stage));
         root.getChildren().addAll(row1,row2,row3);
         Scene scene = new Scene(root,400,300);
         new LIB().setIconAndTitle(stage, CONSTANTS.Applicaiton_icon_path,"Select Item");
