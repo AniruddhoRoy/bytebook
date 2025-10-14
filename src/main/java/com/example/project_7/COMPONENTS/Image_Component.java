@@ -20,8 +20,7 @@ public class Image_Component extends Base_Component{
     public Image_Component()
     {
         imageView = new LIB().loadImageView(CONSTANTS.Default_image_icon_path,150);
-        tooltip=new Tooltip("Add image");
-        Tooltip.install(imageView,tooltip);
+
     }
     public Image_Component(String imagePath,double size){
         this.imagePath = imagePath;
@@ -87,6 +86,8 @@ public class Image_Component extends Base_Component{
     }
    public Button getComponentButton(ArrayList<Base_Component> components, Stage childStage){
         Button button = new Button();
+       tooltip=new Tooltip("Add image");
+       Tooltip.install(button,tooltip);
         button.setGraphic(new LIB().loadImageView("/icons8-image-64.png",50));
         button.setOnAction(e->{
 //            containerNode.getChildren().add(this.getIamgecomponent(childStage));
