@@ -9,6 +9,7 @@ public class CONSTANTS {
     public static final String Applicaiton_Extention = ".bbk";
     public static final String Applicaiton_Name = "ByteBook";
     public static final int Component_id_lenght = 6;
+    public static final String Default_hyperlink_icon = "/Default_hyperlink_icon.png";
 
     //Heading Component
     public static final String Heading_Component_Icon = "/Heading_Image.png";

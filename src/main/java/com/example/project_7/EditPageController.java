@@ -152,6 +152,7 @@ public class EditPageController {
         row2.getChildren().add(new Heading_Component().getComponentButton(components,stage));
         row2.getChildren().add(new Paragraph_Component().getComponentButton(components,stage));
         row3.getChildren().add(new Code_Component_cpp().getComponentButton(components,stage));
+
         root.getChildren().addAll(row1,row2,row3);
         Scene scene = new Scene(root,400,300);
         new LIB().setIconAndTitle(stage, CONSTANTS.Applicaiton_icon_path,"Select Item");
