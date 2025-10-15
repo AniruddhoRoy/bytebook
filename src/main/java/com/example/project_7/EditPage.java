@@ -50,6 +50,9 @@ public class EditPage {
                 else if(components instanceof Code_Component_cpp_Class){
                     editPageController.components.add(((Code_Component_cpp_Class) components).export());
                 }
+                else if(components instanceof Hyperlink_Component_Class){
+                    editPageController.components.add(((Hyperlink_Component_Class) components).export());
+                }
             }
             editPageController.isPriviouslySaved = true;
             editPageController.filePath = this.filePath;

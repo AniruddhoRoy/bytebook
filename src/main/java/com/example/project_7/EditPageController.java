@@ -67,6 +67,9 @@ public class EditPageController {
             else if(component instanceof Code_Component_cpp){
                 html+= ((Code_Component_cpp) component).getHtml();
             }
+            else  if (component instanceof Hyperlink_Component){
+
+            }
         }
         try {
         LIB.export_pdf(html,filePath,fileName);
@@ -94,6 +97,9 @@ public class EditPageController {
             }
             else if(component instanceof Code_Component_cpp){
                 process.components.add(((Code_Component_cpp) component).export());
+            }
+            else if(component instanceof Hyperlink_Component){
+                process.components.add(((Hyperlink_Component) component).export());
             }
         }
         if(!isPriviouslySaved){
@@ -129,6 +135,10 @@ public class EditPageController {
             else if(component instanceof Code_Component_cpp){
                 containerNode.getChildren().add(((Code_Component_cpp) component).getCodeComponentCpp());
             }
+            else if(component instanceof Hyperlink_Component){
+                containerNode.getChildren().add(((Hyperlink_Component) component).getHyperlinkComponent());
+
+            }
         }
     }
     //custom dialog
@@ -151,6 +161,7 @@ public class EditPageController {
         row1.getChildren().add(new Media_Component(false).getComponentButton(components,stage));
         row2.getChildren().add(new Heading_Component().getComponentButton(components,stage));
         row2.getChildren().add(new Paragraph_Component().getComponentButton(components,stage));
+        row2.getChildren().add(new Hyperlink_Component().getComponentButton(components,stage));
         row3.getChildren().add(new Code_Component_cpp().getComponentButton(components,stage));
 
         root.getChildren().addAll(row1,row2,row3);
