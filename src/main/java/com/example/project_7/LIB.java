@@ -1,7 +1,6 @@
 package com.example.project_7;
 import com.example.project_7.COMPONENTS.Base_Component;
 import com.itextpdf.html2pdf.HtmlConverter;
-import com.itextpdf.html2pdf.HtmlConverter;
 
 import java.io.FileOutputStream;
 import javafx.scene.image.Image;
@@ -99,37 +98,51 @@ public class LIB {
         editPageController.refresh();
     }
     public static void export_pdf(String htmlCode,String filePath,String file_name) throws Exception{
+        File directory = new File(filePath);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
+        // Ensure the file path ends with a separator
+        if (!filePath.endsWith(File.separator)) {
+            filePath += File.separator;
+        }
+
+        // Complete HTML document with minimal CSS reset
         String html = """
                 <!DOCTYPE html>
                 <html lang="en">
                 <head>
                   <meta charset="UTF-8">
                   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                  <title>Reset HTML Template</title>
+                  <title>Exported PDF</title>
                   <style>
-                    /* CSS Reset */
                     * {
                       margin: 0;
                       padding: 0;
                       box-sizing: border-box;
                     }
-                                
-                    /* Optional: set default font and background */
                     body {
-                      display: flex;       
-                        flex-direction: column; 
-                        gap: 5px;
+                      font-family: Arial, sans-serif;
+                      display: flex;
+                      flex-direction: column;
+                      gap: 5px;
+                      padding: 10px;
                     }
                   </style>
                 </head>
                 <body>
-                                
                   %s
-                                
                 </body>
                 </html>
                 """.formatted(htmlCode);
-        HtmlConverter.convertToPdf(html, new FileOutputStream(filePath+file_name+".pdf"));
-        System.out.println("✅ PDF created: styled_with_css.pdf");
+
+        // Create the PDF file
+        String outputPath = filePath + file_name + ".pdf";
+        try (FileOutputStream fos = new FileOutputStream(outputPath)) {
+            HtmlConverter.convertToPdf(html, fos);
+        }
+
+        System.out.println("✅ PDF created: " + outputPath);
     }
 }

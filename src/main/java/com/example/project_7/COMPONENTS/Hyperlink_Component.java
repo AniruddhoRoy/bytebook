@@ -109,5 +109,15 @@ public class Hyperlink_Component extends Base_Component{
     public Hyperlink_Component_Class export() {
         return new Hyperlink_Component_Class(displayText, urlText);
     }
-
+    public String getHtml(){
+        String html = """
+                <div style="text-align: center;">
+                  <a href="%s" style="text-decoration: none; color: blue; font-size: 18px;">
+                    %s
+                  </a>
+                </div>
+                                
+                """.formatted(urlText,displayText);
+        return html;
+    }
 }

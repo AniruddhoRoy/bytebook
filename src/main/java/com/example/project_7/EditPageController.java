@@ -5,6 +5,8 @@ import com.example.project_7.COMPONENTS.*;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -13,6 +15,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class EditPageController {
     public static EditPageController instance;
@@ -68,14 +71,44 @@ public class EditPageController {
                 html+= ((Code_Component_cpp) component).getHtml();
             }
             else  if (component instanceof Hyperlink_Component){
-
+                html+= ((Hyperlink_Component) component).getHtml();
             }
         }
-        try {
-        LIB.export_pdf(html,filePath,fileName);
-        }catch (Exception e){
-            System.out.println("Error While Exporting Html");
+        if(isPriviouslySaved){
+            try {
+                LIB.export_pdf(html,filePath,fileName);
+            }catch (Exception e){
+                System.out.println("Error While Exporting Html");
+            }
+        }else{
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Save Changes");
+            alert.setHeaderText("You Have to save current file to export PDF");
+
+            ButtonType saveButton = new ButtonType("Save");
+            ButtonType cancelButton = new ButtonType("Cancel");
+
+            // Remove default buttons and add custom ones
+            alert.getButtonTypes().setAll(saveButton, cancelButton);
+
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.isPresent()) {
+                if (result.get() == saveButton) {
+
+                    saveButtonHandeler();
+                    try {
+                        LIB.export_pdf(html,filePath,fileName);
+                    }catch (Exception e){
+                        System.out.println("Error While Exporting Html");
+                    }
+                }  else {
+                    System.out.println("User canceled the action.");
+
+                }
+            }
         }
+
     }
     @FXML
      private void saveButtonHandeler(){
@@ -106,6 +139,7 @@ public class EditPageController {
             String path = LIB.directoryChooser(parentStage);
             if(path!=null)
             {
+                this.fileName = process.fileName;
                 this.filePath = path;
                 process.save(path);
                 isPriviouslySaved = true;
