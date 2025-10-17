@@ -136,6 +136,8 @@ public class Heading_Component extends Base_Component{
         button.setGraphic(new LIB().loadImageView(CONSTANTS.Heading_Component_Icon,50));
         button.setOnAction(e->{
 //            containerNode.getChildren().add(this.getIamgecomponent(childStage));
+            Tooltip tooltip=new Tooltip("Add a TITLE");
+            Tooltip.install(button,tooltip);
             components.add(this);
             childStage.close();
         });
