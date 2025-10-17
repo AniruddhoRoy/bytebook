@@ -12,12 +12,13 @@ import javafx.stage.Stage;
 
 import javax.print.DocFlavor;
 import java.awt.*;
+import java.net.URI;
 import java.util.ArrayList;
 
 public class Hyperlink_Component extends Base_Component{
     private VBox root;
     private Hyperlink hyperlink;
-    private String urlText="";
+    private String urlText="https://www.google.com";
     private String displayText="Click here";
 
     public Hyperlink_Component(){
@@ -36,15 +37,15 @@ public class Hyperlink_Component extends Base_Component{
         root=new VBox();
         root.setAlignment(Pos.CENTER);
 
-        //Tooltip to show link when hovered
-      //  Tooltip tooltip=new Tooltip("Please set link first");
-        //Tooltip.install(hyperlink,tooltip);
-
         hyperlink=new Hyperlink(displayText);
         hyperlink.setStyle("-fx-font-size:16px;-fx-text-fill:blue");
-        hyperlink.setOnAction(e->{
-            openWebPage(urlText);
-        });
+
+        // ✅ Tooltip added here
+        Tooltip tooltip = new Tooltip("Go to: " + urlText);
+        Tooltip.install(hyperlink, tooltip);
+
+        hyperlink.setOnAction(e ->
+                openWebPage(urlText));
 
         root.getChildren().add(hyperlink);
 
@@ -73,6 +74,7 @@ public class Hyperlink_Component extends Base_Component{
             dialog.setContentText("Enter new URL: ");
             dialog.showAndWait().ifPresent(newURL->{
                 urlText=newURL;
+                tooltip.setText("Go to: "+newURL);
             });
         });
         delete.setOnAction(this::delete);
@@ -86,7 +88,7 @@ public class Hyperlink_Component extends Base_Component{
     private void openWebPage(String urlText)
     {
         try{
-            Desktop.getDesktop().browse(new java.net.URL(urlText).toURI());
+            Desktop.getDesktop().browse(new URI(urlText));
         }catch (Exception e){
             System.out.println("Invalid URL: "+e.getMessage());
         }
@@ -99,15 +101,27 @@ public class Hyperlink_Component extends Base_Component{
     public Button getComponentButton(ArrayList<Base_Component>components, Stage childStage){
         Button button=new Button();
         button.setGraphic(new LIB().loadImageView(CONSTANTS.Default_hyperlink_icon,50));
+        Tooltip tooltip = new Tooltip("Search Tool");
+        Tooltip.install(button, tooltip);
         button.setOnAction(e->{
             components.add(this);
             childStage.close();
         });
+
         return button;
     }
     // Export for saving
     public Hyperlink_Component_Class export() {
         return new Hyperlink_Component_Class(displayText, urlText);
     }
-
+    public String getHtml() {
+        String html = """
+                <div style="text-align: center;">
+                  <a href="%s" style="text-decoration: none; color: blue; font-size: 18px;">
+                    %s
+                  </a>
+                </div>
+                """.formatted(urlText, displayText);
+        return html;
+    }
 }
