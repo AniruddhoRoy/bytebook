@@ -36,7 +36,7 @@ public class Image_Component extends Base_Component{
             imageView.setFitHeight(size);
         }else{
             imageView = new LIB().loadImageView(CONSTANTS.Default_image_icon_path,size);
-            tooltip.setText("Add image");
+            tooltip.setText("Add a new image");
         }
         Tooltip.install(imageView,tooltip);//Attach tooltip
     }

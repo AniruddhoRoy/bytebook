@@ -84,6 +84,9 @@ public class Paragraph_Component extends Base_Component {
     public Button getComponentButton(ArrayList<Base_Component> components, Stage childStage){
         Button button = new Button();
         button.setGraphic(new LIB().loadImageView(CONSTANTS.Paragraph_icon,50));
+        //Tooltip added here
+        Tooltip tooltip=new Tooltip("Add a new paragraph");
+        Tooltip.install(button,tooltip);
         button.setOnAction(e->{
 //            containerNode.getChildren().add(this.getIamgecomponent(childStage));
             components.add(this);
