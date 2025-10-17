@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Priority;
@@ -73,6 +74,9 @@ public class code_component_cpp extends Application {
     private void loadTerminal() {
         Button runButton = new Button("Run");
 
+//Tooltip for run button
+        Tooltip runtooltip=new Tooltip("Click to compile code");
+        Tooltip.install(runButton,runtooltip);
         terminal = new CodeArea("Byte book compiler v0.7 ==>");
         terminal.setWrapText(true);
 //        terminal.setEditable(false);
