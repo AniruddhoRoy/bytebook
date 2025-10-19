@@ -97,4 +97,7 @@ public class CONSTANTS {
                 return 0;
             }
             """;
+    //to do list component
+    public static final String ToDoList_icon="/Default_todolist.png";
+    
 }
