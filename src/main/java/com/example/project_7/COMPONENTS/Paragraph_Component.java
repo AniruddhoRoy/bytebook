@@ -63,42 +63,8 @@ public class Paragraph_Component extends Base_Component {
         addContextMenu();
     }
 
-    //show password prompt before allowing access
-    private boolean checkPassword()
-    {
-        if(unlocked) return true;//already unlocked
-        PasswordField passwordField=new PasswordField();
-        passwordField.setPromptText("Enter password...");
-
-        ButtonType loginButtonType=new ButtonType("Login",
-                ButtonBar.ButtonData.OK_DONE);
-        Dialog<String>dialog=new Dialog<>();
-        dialog.setTitle("Protected Component");
-        dialog.setHeaderText("Enter password to access this paragraph...");
-        dialog.getDialogPane().getButtonTypes().addAll(loginButtonType,ButtonType.CANCEL);
-        dialog.getDialogPane().setContent(passwordField);
-
-        dialog.setResultConverter(dialogButton->{
-            if(dialogButton==loginButtonType)
-            {
-                return passwordField.getText();
-            }
-            return null;
-        });
-
-        Optional<String>result=dialog.showAndWait();
-        if(result.isPresent()&&result.get().equals("smrity123")){//set password here
-            unlocked=true;
-            return true;
-        }else {
-            Alert alert=new Alert(Alert.AlertType.ERROR,"Incorrect password!",ButtonType.OK);
-            alert.showAndWait();
-            return false;
-        }
-    }
 
     public VBox getPragraphComponent() {
-        if(!checkPassword())return new VBox();//return empty if password fail
 
         root.setAlignment(Pos.CENTER);
 
@@ -127,10 +93,9 @@ public class Paragraph_Component extends Base_Component {
         Tooltip.install(button,tooltip);
         button.setOnAction(e->{
 //            containerNode.getChildren().add(this.getIamgecomponent(childStage));
-            if(checkPassword()) {
                 components.add(this);
                 childStage.close();
-            }
+
         });
         return button;
     }
