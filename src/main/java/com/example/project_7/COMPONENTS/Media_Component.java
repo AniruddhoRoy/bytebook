@@ -5,10 +5,7 @@ import com.example.project_7.LIB;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -216,6 +213,8 @@ void loadMediaHandeler(ActionEvent e){
         }else {
         button.setGraphic(new LIB().loadImageView(CONSTANTS.Media_music_icon,50));
         }
+        Tooltip tooltip=new Tooltip("Media tool");
+        Tooltip.install(button,tooltip);
         button.setOnAction(e->{
 //            containerNode.getChildren().add(this.getIamgecomponent(childStage));
             components.add(this);
