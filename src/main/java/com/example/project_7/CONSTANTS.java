@@ -83,5 +83,7 @@ public class CONSTANTS {
     public static final String Media_music_disk_icon = "/Default_music_disk_icon.png";
     //Paragraph Component
     public static final String Paragraph_icon = "/Default_Paragraph_Icon.png";
+    //to do list component
+    public static final String ToDoList_icon="/Default_todolist.png";
 
 }
