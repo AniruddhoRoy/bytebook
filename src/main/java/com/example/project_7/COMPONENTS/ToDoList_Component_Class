@@ -1,0 +1,38 @@
+/*package com.example.project_7.COMPONENTS;
+
+public class ToDoList_Component_Class extends Component_Base_Classes {
+    public String text;
+    public String style_background_color;
+    public String style_font_weight;
+    public String style_font_Size;
+    public String style_font_family;
+    public String style_font_color;
+
+    public ToDoList_Component_Class(String text,
+                                    String style_background_color,
+                                    String style_font_weight,
+                                    String style_font_Size,
+                                    String style_font_family,
+                                    String style_font_color){
+        this.text = text;
+        this.style_background_color = style_background_color;
+        this.style_font_weight = style_font_weight;
+        this.style_font_Size = style_font_Size;
+        this.style_font_family = style_font_family;
+        this.style_font_color = style_font_color;
+
+    }
+
+    public ToDoList_Component export()
+    {
+        return new ToDoList_Component(text,
+                style_background_color,
+                style_font_weight,
+                style_font_Size,
+                style_font_family,
+                style_font_color)
+    }
+}
+
+ */
+

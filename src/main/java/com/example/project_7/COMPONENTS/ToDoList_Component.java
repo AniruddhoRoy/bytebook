@@ -13,15 +13,17 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 
 public class ToDoList_Component extends Base_Component {
-    private VBox root;
-    private VBox taskBox; // must be consistent name, not taskbox lowercase
 
+    public VBox taskBox;
+    public VBox root;
+
+   // Constructor — builds the component when created
     public ToDoList_Component() {
-        initComponent();
+        root = initComponent();
     }
+    public VBox initComponent() {
 
-    private void initComponent() {
-        root = new VBox(10);
+        VBox root = new VBox(10);
         root.setPadding(new Insets(15));
         root.setStyle("-fx-background-color:#f9f9f9;" +
                 "-fx-border-color:#cccccc;" +
@@ -71,6 +73,7 @@ public class ToDoList_Component extends Base_Component {
         });
 
         root.getChildren().addAll(title, inbox, taskBox);
+        return root;
     }
 
     private HBox createTaskRow(String text) {
@@ -111,11 +114,16 @@ public class ToDoList_Component extends Base_Component {
         return row;
     }
 
-    // Return the to-do list container
+   // Needed for export/import
+    public void addTask(String taskText) {
+        HBox taskRow = createTaskRow(taskText);
+        taskBox.getChildren().add(taskRow);
+    }
+
+    //Needed for main UI
     public VBox getToDoListComponent() {
         return root;
     }
-
     // Icon button for toolbox
     public Button getComponentButton(ArrayList<Base_Component> components, Stage stage) {
         Button button = new Button();
@@ -129,10 +137,4 @@ public class ToDoList_Component extends Base_Component {
         });
         return button;
     }
-
-    public void addTask(String taskText) {
-        HBox taskRow = createTaskRow(taskText);
-        taskBox.getChildren().add(taskRow);
-    }
-
 }
