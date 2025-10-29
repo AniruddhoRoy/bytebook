@@ -73,6 +73,10 @@ public class EditPageController {
             else  if (component instanceof Hyperlink_Component){
                 html+= ((Hyperlink_Component) component).getHtml();
             }
+            else if(component instanceof ToDoList_Component)
+            {
+                html+= ((ToDoList_Component) component).getHtml();
+            }
         }
         if(isPriviouslySaved){
             try {

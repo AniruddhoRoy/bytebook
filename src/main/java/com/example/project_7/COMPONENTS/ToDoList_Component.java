@@ -170,4 +170,67 @@ public class ToDoList_Component extends Base_Component {
         }
         return new ToDoList_Component_Class(TodoListHading.getText(),Completed_todos,Not_Completed_todos);
     }
+    private String getcss(String text){
+        if(text.contains("blue")){
+            return "rgb(145, 145, 255)";
+        }
+        if(text.contains("red")){
+            return "rgb(255, 96, 96)";
+        }
+        if(text.contains("green")){
+            return "rgb(156, 249, 154)";
+        }
+        return "rgb(191, 191, 191)";
+
+    }
+    public String getHtml(){
+        String completedTodos = "";
+        String Not_completedTodos = "";
+        for(Node node:LeftBar.getChildren()){
+            if(node instanceof CheckBox){
+                CheckBox checkBox = (CheckBox) node;
+                Not_completedTodos +=
+                        "<div style=\""
+                                + "background-color: " + getcss(checkBox.getStyle()) + ";"
+                                + "padding: 5px 10px;"
+                                + "margin: 10px;"
+                                + "border-radius: 10px;"
+                                + "\">"
+                                + "<h3>" + checkBox.getText() + "</h3>"
+                                + "</div>";
+
+
+            }}
+        for(Node node:RightBar.getChildren()){
+            if(node instanceof CheckBox){
+                CheckBox checkBox = (CheckBox) node;
+                completedTodos +=
+                        "<div style=\""
+                                + "background-color: " + getcss(checkBox.getStyle()) + ";"
+                                + "padding: 5px 10px;"
+                                + "margin: 10px;"
+                                + "border-radius: 10px;"
+                                + "\">"
+                                + "<h3>" + checkBox.getText() + "</h3>"
+                                + "</div>";
+
+            }
+            }
+
+        String html =
+                "<div style='background-color: rgba(208, 255, 237, 0.934); padding: 20px;border-radius: 10px;'>"
+                        + "<div style='display: flex; flex-direction: column; align-items: center;'>"
+                        + "<h2>" + TodoListHading.getText() + "</h2>"
+                        + "</div>"
+                        + "<div style='display: flex; justify-content: center; margin-top: 20px ;gap: 10px;'>"
+                        + "<div style=' border-radius: 20px; padding: 10px 20px; width: 40%;'>"
+                        + "<h3>Completed</h3>" + completedTodos + "</div>"
+                        + "<div style=' border-radius: 20px; padding: 10px 20px; width: 40%;'>"
+                        + "<h3>Not Completed</h3>" +  Not_completedTodos+ "</div>"
+                        + "</div></div>";
+
+
+
+        return html;
+    };
 }
