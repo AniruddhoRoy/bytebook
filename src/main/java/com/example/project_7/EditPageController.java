@@ -134,6 +134,9 @@ public class EditPageController {
             else if(component instanceof Hyperlink_Component){
                 process.components.add(((Hyperlink_Component) component).export());
             }
+            else if (component instanceof ToDoList_Component) {
+                process.components.add(((ToDoList_Component) component).export());
+            }
         }
         if(!isPriviouslySaved){
             String path = LIB.directoryChooser(parentStage);

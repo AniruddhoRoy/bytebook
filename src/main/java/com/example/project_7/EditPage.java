@@ -53,6 +53,9 @@ public class EditPage {
                 else if(components instanceof Hyperlink_Component_Class){
                     editPageController.components.add(((Hyperlink_Component_Class) components).export());
                 }
+                else if(components instanceof  ToDoList_Component_Class){
+                    editPageController.components.add(((ToDoList_Component_Class) components).export());
+                }
             }
             editPageController.isPriviouslySaved = true;
             editPageController.filePath = this.filePath;
