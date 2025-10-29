@@ -173,6 +173,10 @@ public class EditPageController {
                 containerNode.getChildren().add(((Hyperlink_Component) component).getHyperlinkComponent());
 
             }
+            else if(component instanceof ToDoList_Component)
+            {
+                containerNode.getChildren().add(((ToDoList_Component) component).getToDoListComponent());
+            }
         }
     }
     //custom dialog
