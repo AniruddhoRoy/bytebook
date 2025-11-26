@@ -5,6 +5,8 @@ import javafx.util.Pair;
 public class CONSTANTS {
     //basic
     public static final String Applicaiton_icon_path = "/application_icon.png";
+    public static final String Default_Home_Page_Icon = "/Default_home_page.png";
+    public static final String Default_Application_Extention_Logo = "/Default_Application_Extention_Logo.png";
     public static final String Default_image_icon_path = "/Default_imageIcon.png";
     public static final String Applicaiton_Extention = ".bbk";
     public static final String Applicaiton_Name = "ByteBook";

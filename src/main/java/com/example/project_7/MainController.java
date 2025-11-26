@@ -1,14 +1,13 @@
 package com.example.project_7;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.SplitPane;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
@@ -22,12 +21,27 @@ public class MainController {
     @FXML
     private SplitPane rootNode;
     @FXML
+    private VBox treeViewNode;
+    @FXML
     public void initialize(){
 //
 //                "-fx-background-color: linear-gradient(to right, #a0c4ff, #ffffff);"
-        rootNode.setStyle(
-                "-fx-background-color: linear-gradient(to right, #0f2027, #203a43, #2c5364);"
+//        rootNode.setStyle(
+//                "-fx-background-color: linear-gradient(to right, #0f2027, #203a43, #2c5364);"
+//        );
+        Image image = new Image(getClass().getResourceAsStream(CONSTANTS.Default_Home_Page_Icon));
+        BackgroundImage backgroundImage = new BackgroundImage(
+                image,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER,
+                new BackgroundSize(100,100,true,true,true,true)
         );
+        Background background = new Background(backgroundImage);
+        rootNode.setBackground(background);
+        rootNode.getStylesheets().add(getClass().getResource("/CSS/splitPane.css").toExternalForm());
+        treeViewNode.setAlignment(Pos.TOP_CENTER);
+        load_recent_File_TreeView();
     }
     @FXML
     private void createButtonHandeler(){
@@ -95,5 +109,24 @@ public class MainController {
             }
         });
         childStage.show();
+    }
+    void load_recent_File_TreeView(){
+        TreeView<String> treeView = new TreeView<>();
+        treeView.setPadding(new Insets(15,0,0,0));
+        treeView.getStylesheets().add(getClass().getResource("/CSS/treeview.css").toExternalForm());
+        TreeItem<String > root = new TreeItem<>();
+        treeView.setRoot(root);
+        treeView.setShowRoot(false);
+        VBox.setVgrow(treeView, Priority.ALWAYS);
+        for(int i = 0 ; i<10 ; i++)
+        {
+            TreeItem<String > newTreeItem = new TreeItem<String>("Saved file name [time] ",new LIB().loadImageView(CONSTANTS.Default_Application_Extention_Logo,10));
+            root.getChildren().add(newTreeItem);
+        }
+        treeView.getSelectionModel().selectedItemProperty().addListener((obs,ov,nv)->{
+            TreeItem<String > treeItem = (TreeItem<String>) nv;
+            System.out.println(treeItem.getValue());
+        });
+        treeViewNode.getChildren().add(treeView);
     }
 }
