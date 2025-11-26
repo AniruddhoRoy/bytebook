@@ -34,6 +34,7 @@ public class ToDoList_Component extends Base_Component {
     private String fontColor = "-fx-text-fill: gray;";
     private void initComponet(){
         TodoListHading = new TextField();
+        TodoListHading.setContextMenu(new ContextMenu());
         TodoListHading.setPromptText("Heading is not set");
         TodoListHading.setStyle("-fx-font-size: 25px; -fx-text-fill: gray; -fx-font-weight: bold;");
         TodoListHading.setAlignment(Pos.CENTER);
@@ -60,6 +61,13 @@ public class ToDoList_Component extends Base_Component {
         root.setSpacing(10);
         root.setPadding(new Insets(10));
         root.getChildren().addAll(TodoListHading,inputBinder,Binder);
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem delete = new MenuItem("Delete");
+        delete.setOnAction(this::delete);
+        contextMenu.getItems().add(delete);
+        root.setOnContextMenuRequested(e->{
+            contextMenu.show(root,e.getScreenX(),e.getScreenY());
+        });
     }
     public ToDoList_Component() {
         initComponet();

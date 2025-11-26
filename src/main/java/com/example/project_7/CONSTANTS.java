@@ -86,6 +86,7 @@ public class CONSTANTS {
     //Paragraph Component
     public static final String Paragraph_icon = "/Default_Paragraph_Icon.png";
     //Code component
+    public enum Language {PYTHON , CPP , C ,};
     public static final String Cpp_Icon = "/Default_Cpp_Icon.png";
     public static final String Cpp_default_snippet = """
             #include <iostream>
@@ -99,7 +100,17 @@ public class CONSTANTS {
                 return 0;
             }
             """;
+    public static final String Python_Icon = "/Default_Python_Icon.png";
+    public static final String Python_default_snippet = """
+            # Welcome
+            name = input("Enter your name: ")
+                        
+            # Hello msg
+            print("Hello, " + name + "!")
+            """;
     //to do list component
     public static final String ToDoList_icon="/Default_todolist.png";
+
+
     
 }

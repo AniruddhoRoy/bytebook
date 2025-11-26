@@ -23,12 +23,9 @@ public class MainController {
     @FXML
     private VBox treeViewNode;
     @FXML
+    private ImageView openButton,createButton;
+    @FXML
     public void initialize(){
-//
-//                "-fx-background-color: linear-gradient(to right, #a0c4ff, #ffffff);"
-//        rootNode.setStyle(
-//                "-fx-background-color: linear-gradient(to right, #0f2027, #203a43, #2c5364);"
-//        );
         Image image = new Image(getClass().getResourceAsStream(CONSTANTS.Default_Home_Page_Icon));
         BackgroundImage backgroundImage = new BackgroundImage(
                 image,

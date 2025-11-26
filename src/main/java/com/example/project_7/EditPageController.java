@@ -201,13 +201,15 @@ public class EditPageController {
         HBox row2 = getHbox();
         row2.setSpacing(10);
         HBox row3 = getHbox();
+        row3.setSpacing(10);
         row1.getChildren().add(new Image_Component().getComponentButton(components,stage));
         row1.getChildren().add(new Media_Component(true).getComponentButton(components,stage));
         row1.getChildren().add(new Media_Component(false).getComponentButton(components,stage));
         row2.getChildren().add(new Heading_Component().getComponentButton(components,stage));
         row2.getChildren().add(new Paragraph_Component().getComponentButton(components,stage));
         row2.getChildren().add(new Hyperlink_Component().getComponentButton(components,stage));
-        row3.getChildren().add(new Code_Component_cpp().getComponentButton(components,stage));
+        row3.getChildren().add(new Code_Component_cpp().getComponentButton(components,stage, CONSTANTS.Language.CPP));
+        row3.getChildren().add(new Code_Component_cpp().getComponentButton(components,stage, CONSTANTS.Language.PYTHON));
 
         row3.getChildren().add(new ToDoList_Component().getComponentButton(components,stage));
         root.getChildren().addAll(row1,row2,row3);

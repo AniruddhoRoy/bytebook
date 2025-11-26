@@ -20,12 +20,12 @@
                <children>
                   <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="89.0" prefWidth="276.0" spacing="20.0">
                      <children>
-                        <ImageView fitHeight="65.0" fitWidth="79.0" onMouseClicked="#createButtonHandeler" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="createButton" fitHeight="65.0" fitWidth="79.0" onMouseClicked="#createButtonHandeler" pickOnBounds="true" preserveRatio="true" styleClass="icon-button">
                            <image>
                               <Image url="@../../../icons8-create-500.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="64.0" fitWidth="69.0" onMouseClicked="#openButtonHandeler" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="openButton" fitHeight="64.0" fitWidth="69.0" onMouseClicked="#openButtonHandeler" pickOnBounds="true" preserveRatio="true" styleClass="icon-button">
                            <image>
                               <Image url="@../../../icons8-opened-folder-500.png" />
                            </image>
