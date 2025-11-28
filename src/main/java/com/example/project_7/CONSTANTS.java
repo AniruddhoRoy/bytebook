@@ -2,6 +2,7 @@ package com.example.project_7;
 
 import javafx.util.Pair;
 
+
 public class CONSTANTS {
     //basic
     public static final String Applicaiton_icon_path = "/application_icon.png";
@@ -86,11 +87,11 @@ public class CONSTANTS {
     //Paragraph Component
     public static final String Paragraph_icon = "/Default_Paragraph_Icon.png";
     //Code component
-    public enum Language {PYTHON , CPP , C ,};
+    public enum Language {PYTHON , CPP , C ,HTML_CSS_JS};
     public static final String Cpp_Icon = "/Default_Cpp_Icon.png";
     public static final String Cpp_default_snippet = """
             #include <iostream>
-            
+
             using namespace std;
             int main() {
                 string name ;
@@ -104,7 +105,7 @@ public class CONSTANTS {
     public static final String Python_default_snippet = """
             # Welcome
             name = input("Enter your name: ")
-                        
+
             # Hello msg
             print("Hello, " + name + "!")
             """;
@@ -112,5 +113,5 @@ public class CONSTANTS {
     public static final String ToDoList_icon="/Default_todolist.png";
 
 
-    
+
 }

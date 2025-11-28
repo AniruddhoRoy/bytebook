@@ -1,12 +1,18 @@
 package com.example.project_7;
 
 
+
+
 import com.example.project_7.COMPONENTS.*;
+import com.example.project_7.CONSTANTS.Language;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -187,7 +193,25 @@ public class EditPageController {
         }
     }
     //custom dialog
+    @FXML
+    public void AttendanceDialogHandeller(){
+        try {
+            // Load the FXML for the new window
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Attendance.fxml"));
+            Parent root = fxmlLoader.load();
 
+            // Create new stage
+            Stage stage = new Stage();
+            stage.setTitle("New Stage Window");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(new Scene(root));
+            stage.setResizable(false);
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     void showAddItemsDialogBox(){
         Stage stage = new Stage(StageStyle.DECORATED);
         stage.initOwner(parentStage);
@@ -208,8 +232,8 @@ public class EditPageController {
         row2.getChildren().add(new Heading_Component().getComponentButton(components,stage));
         row2.getChildren().add(new Paragraph_Component().getComponentButton(components,stage));
         row2.getChildren().add(new Hyperlink_Component().getComponentButton(components,stage));
-        row3.getChildren().add(new Code_Component_cpp().getComponentButton(components,stage, CONSTANTS.Language.CPP));
-        row3.getChildren().add(new Code_Component_cpp().getComponentButton(components,stage, CONSTANTS.Language.PYTHON));
+        row3.getChildren().add(new Code_Component_cpp(Language.CPP).getComponentButton(components,stage));
+        row3.getChildren().add(new Code_Component_cpp(Language.PYTHON).getComponentButton(components,stage));
 
         row3.getChildren().add(new ToDoList_Component().getComponentButton(components,stage));
         root.getChildren().addAll(row1,row2,row3);

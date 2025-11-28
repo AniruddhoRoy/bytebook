@@ -10,7 +10,6 @@ module com.example.project_7 {
     requires html2pdf;
     requires javafx.swing;
 
-
     opens com.example.project_7 to javafx.fxml;
     exports com.example.project_7;
     exports com.example.project_7.COMPONENTS;

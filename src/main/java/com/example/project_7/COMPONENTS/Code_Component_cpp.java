@@ -2,12 +2,10 @@ package com.example.project_7.COMPONENTS;
 import com.example.project_7.CONSTANTS;
 import com.example.project_7.CONSTANTS.Language;
 import com.example.project_7.LIB;
-import javafx.application.Platform;
-import javafx.geometry.Insets;
+
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
+
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -20,7 +18,7 @@ import java.util.ArrayList;
 public class Code_Component_cpp extends Base_Component {
     private SplitPane splitPane;
     private CodeArea codeArea;
-    private int initialLength;
+//    private CodeAreaCustom codeArea;
     private double size = 400;
     VBox root = new VBox();
     Language language;
@@ -86,8 +84,9 @@ public class Code_Component_cpp extends Base_Component {
                     </div>
             """.formatted(escapeForHtml((codeArea.getText()))));
     }
-    public Code_Component_cpp(){
+    public Code_Component_cpp(Language language){
         splitPane = new SplitPane();
+        this.language = language;
         updateSize(size);
         loadCodeArea();
         addContextMenu(codeArea);
@@ -108,19 +107,14 @@ public class Code_Component_cpp extends Base_Component {
     public VBox getCodeComponentCpp() {
         return root;
     }
-    public Button getComponentButton(ArrayList<Base_Component> components, Stage childStage,Language language){
-        this.language = language;
+    public Button getComponentButton(ArrayList<Base_Component> components, Stage childStage){
         Button button = new Button();
         if(language == Language.CPP){
             button.setGraphic(new LIB().loadImageView(CONSTANTS.Cpp_Icon,50));
         } else if (language == Language.PYTHON) {
             button.setGraphic(new LIB().loadImageView(CONSTANTS.Python_Icon,50));
         }
-        if(language==Language.CPP){
-            codeArea.replaceText(CONSTANTS.Cpp_default_snippet);
-        } else if (language==Language.PYTHON) {
-            codeArea.replaceText(CONSTANTS.Python_default_snippet);
-        }
+
         button.setOnAction(e->{
             components.add(this);
             childStage.close();
