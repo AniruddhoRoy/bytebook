@@ -1,6 +1,7 @@
 package com.example.project_7.COMPONENTS;
 
 import com.example.project_7.CONSTANTS;
+import com.example.project_7.EditPageController;
 import com.example.project_7.LIB;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -85,7 +86,7 @@ public class Paragraph_Component extends Base_Component {
         });
         return root;
     }
-    public Button getComponentButton(ArrayList<Base_Component> components, Stage childStage){
+    public Button getComponentButton(ArrayList<Base_Component> components, EditPageController instance){
         Button button = new Button();
         button.setGraphic(new LIB().loadImageView(CONSTANTS.Paragraph_icon,50));
         //Tooltip added here
@@ -93,8 +94,8 @@ public class Paragraph_Component extends Base_Component {
         Tooltip.install(button,tooltip);
         button.setOnAction(e->{
 //            containerNode.getChildren().add(this.getIamgecomponent(childStage));
-                components.add(this);
-                childStage.close();
+                components.add(new Paragraph_Component());
+            instance.refresh();
 
         });
         return button;

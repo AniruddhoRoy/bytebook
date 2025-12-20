@@ -1,6 +1,7 @@
 package com.example.project_7.COMPONENTS;
 
 import com.example.project_7.CONSTANTS;
+import com.example.project_7.EditPageController;
 import com.example.project_7.LIB;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
@@ -131,15 +132,15 @@ public class Heading_Component extends Base_Component{
         return root;
     }
 
-    public Button getComponentButton(ArrayList<Base_Component> components, Stage childStage){
+    public Button getComponentButton(ArrayList<Base_Component> components, EditPageController instance){
         Button button = new Button();
         button.setGraphic(new LIB().loadImageView(CONSTANTS.Heading_Component_Icon,50));
         button.setOnAction(e->{
 //            containerNode.getChildren().add(this.getIamgecomponent(childStage));
             Tooltip tooltip=new Tooltip("Add a TITLE");
             Tooltip.install(button,tooltip);
-            components.add(this);
-            childStage.close();
+            components.add(new Heading_Component());
+            instance.refresh();
         });
         return button;
     }

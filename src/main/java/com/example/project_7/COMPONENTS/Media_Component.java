@@ -1,6 +1,7 @@
 package com.example.project_7.COMPONENTS;
 
 import com.example.project_7.CONSTANTS;
+import com.example.project_7.EditPageController;
 import com.example.project_7.LIB;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
@@ -206,7 +207,7 @@ void loadMediaHandeler(ActionEvent e){
         this.parentStage = stage;
         return root;
     }
-    public Button getComponentButton(ArrayList<Base_Component> components, Stage childStage){
+    public Button getComponentButton(ArrayList<Base_Component> components, EditPageController instance,boolean isVideo){
         Button button = new Button();
         if(isVideo){
         button.setGraphic(new LIB().loadImageView(CONSTANTS.Media_Video_icon,50));
@@ -217,8 +218,8 @@ void loadMediaHandeler(ActionEvent e){
         Tooltip.install(button,tooltip);
         button.setOnAction(e->{
 //            containerNode.getChildren().add(this.getIamgecomponent(childStage));
-            components.add(this);
-            childStage.close();
+            components.add(new Media_Component(isVideo));
+            instance.refresh();
         });
         return button;
     }

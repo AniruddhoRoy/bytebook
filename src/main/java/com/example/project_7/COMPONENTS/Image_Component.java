@@ -1,6 +1,7 @@
 package com.example.project_7.COMPONENTS;
 
 import com.example.project_7.CONSTANTS;
+import com.example.project_7.EditPageController;
 import com.example.project_7.LIB;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -22,7 +23,7 @@ public class Image_Component extends Base_Component{
     private String  imagePath = "";
     private double size = 200;
     ImageView imageView ;
-    Tooltip tooltip;
+    Tooltip tooltip = new Tooltip();
     public Image_Component()
     {
         imageView = new LIB().loadImageView(CONSTANTS.Default_image_icon_path,150);
@@ -31,7 +32,6 @@ public class Image_Component extends Base_Component{
     public Image_Component(String imagePath,double size){
         this.imagePath = imagePath;
         this.size = size;
-        tooltip=new Tooltip();
 
         if(!imagePath.isEmpty()){
             imageView = new ImageView();
@@ -90,15 +90,16 @@ public class Image_Component extends Base_Component{
         });
         return root;
     }
-   public Button getComponentButton(ArrayList<Base_Component> components, Stage childStage){
+   public Button getComponentButton(ArrayList<Base_Component> components, EditPageController instance){
         Button button = new Button();
        tooltip=new Tooltip("Add image");
        Tooltip.install(button,tooltip);
         button.setGraphic(new LIB().loadImageView("/icons8-image-64.png",50));
         button.setOnAction(e->{
 //            containerNode.getChildren().add(this.getIamgecomponent(childStage));
-            components.add(this);
-            childStage.close();
+//            components.add(this);
+            components.add(new Image_Component());
+            instance.refresh();
         });
         return button;
     }

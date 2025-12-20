@@ -1,30 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane fx:id="rootNode" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project_7.EditPageController">
-   <bottom>
-      <ImageView fitHeight="67.0" fitWidth="69.0" onMouseClicked="#addButtonHandeler" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
-         <BorderPane.margin>
-            <Insets bottom="20.0" />
-         </BorderPane.margin>
-         <image>
-            <Image url="@../../../icons8-create-500.png" />
-         </image>
-      </ImageView>
-   </bottom>
    <center>
       <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="394.0" prefWidth="679.0" BorderPane.alignment="CENTER">
          <content>
-            <VBox fx:id="containerNode" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="349.0" prefWidth="621.0" />
+            <VBox fx:id="containerNode" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="486.0" prefWidth="998.0" />
          </content>
       </ScrollPane>
    </center>
@@ -55,4 +43,7 @@
         </menus>
       </MenuBar>
    </top>
+   <bottom>
+      <HBox fx:id="BottomHbox" alignment="CENTER" prefHeight="72.0" prefWidth="1000.0" BorderPane.alignment="CENTER" />
+   </bottom>
 </BorderPane>
