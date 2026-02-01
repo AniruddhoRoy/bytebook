@@ -80,6 +80,12 @@ public class CONSTANTS {
             new Pair<>("Lighter", "-fx-font-weight: lighter;"),
 
     };
+    public static final Pair<String, String>[] fontAlignment = new Pair[] {
+            new Pair<>("Left", "-fx-alignment: CENTER_LEFT;"),
+            new Pair<>("Center", "-fx-alignment: CENTER; "),
+            new Pair<>("Right", "-fx-alignment: CENTER_RIGHT; "),
+
+    };
     //Media component
     public static final String Media_Video_icon = "/Default_video_icon.png";
     public static final String Media_music_icon = "/Default_music_icon.png";

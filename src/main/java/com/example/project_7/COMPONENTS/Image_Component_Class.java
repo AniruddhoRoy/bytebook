@@ -1,19 +1,20 @@
 package com.example.project_7.COMPONENTS;
 
+import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
 public class Image_Component_Class extends Component_Base_Classes implements Serializable {
-    private String path= "";
     private double size;
-    Image_Component_Class(String path, double size){
+    private String base64;
+    Image_Component_Class(String base64, double size){
         this.size = size;
-        this.path = path;
+        this.base64 = base64;
     }
     public Image_Component export(){
-        return new Image_Component(path,size);
+        return new Image_Component(base64,size);
     }
     public String toString(){
-        return (path+" "+size);
+        return (base64+" "+size);
     }
 
 }

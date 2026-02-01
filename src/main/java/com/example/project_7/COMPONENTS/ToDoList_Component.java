@@ -1,6 +1,7 @@
 package com.example.project_7.COMPONENTS;
 
 import com.example.project_7.CONSTANTS;
+import com.example.project_7.EditPageController;
 import com.example.project_7.LIB;
 
 import javafx.geometry.Insets;
@@ -147,15 +148,15 @@ public class ToDoList_Component extends Base_Component {
     }
 
 
-    public Button getComponentButton(ArrayList<Base_Component> components, Stage stage) {
+    public Button getComponentButton(ArrayList<Base_Component> components, EditPageController instance) {
         Button button = new Button();
         button.setGraphic(new LIB().loadImageView(CONSTANTS.ToDoList_icon, 50));
         Tooltip tooltip = new Tooltip("To-Do List");
         Tooltip.install(button, tooltip);
 
         button.setOnAction(e -> {
-            components.add(this);
-            stage.close();
+            components.add(new ToDoList_Component());
+            instance.refresh();
         });
         return button;
     }

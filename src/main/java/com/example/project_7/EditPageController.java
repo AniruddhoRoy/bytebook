@@ -4,21 +4,22 @@ package com.example.project_7;
 
 
 import com.example.project_7.COMPONENTS.*;
-import com.example.project_7.CONSTANTS.Language;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
+
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.MenuItem;
+
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -34,18 +35,12 @@ public class EditPageController {
     @FXML
     public void initialize() {
         instance = this;
+        loadDock();
     }
     @FXML
     private BorderPane rootNode;
     @FXML
     private VBox containerNode;
-    @FXML
-    private void addButtonHandeler(){
-
-        parentStage = (Stage) rootNode.getScene().getWindow();
-        showAddItemsDialogBox();
-        refresh();
-    }
     @FXML
     private void exportToPdfButtonHandeler(){
         refresh();
@@ -157,11 +152,14 @@ public class EditPageController {
                 process.save(path);
                 isPriviouslySaved = true;
             }
+            Main.recentHandler.add_recent_file(new Item(process.fileName,path));
         }else{
             process.save(this.filePath);
         }
 
     }
+    @FXML
+    HBox BottomHbox;
     //custom Methods
     public void refresh(){
         containerNode.getChildren().clear();
@@ -212,41 +210,18 @@ public class EditPageController {
             e.printStackTrace();
         }
     }
-    void showAddItemsDialogBox(){
-        Stage stage = new Stage(StageStyle.DECORATED);
-        stage.initOwner(parentStage);
-        stage.setResizable(false);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        VBox root = new VBox();
-        root.setPadding(new Insets(15));
-        root.setSpacing(10);
-        HBox row1 = getHbox();
-        row1.setSpacing(10);
-        HBox row2 = getHbox();
-        row2.setSpacing(10);
-        HBox row3 = getHbox();
-        row3.setSpacing(10);
-        row1.getChildren().add(new Image_Component().getComponentButton(components,stage));
-        row1.getChildren().add(new Media_Component(true).getComponentButton(components,stage));
-        row1.getChildren().add(new Media_Component(false).getComponentButton(components,stage));
-        row2.getChildren().add(new Heading_Component().getComponentButton(components,stage));
-        row2.getChildren().add(new Paragraph_Component().getComponentButton(components,stage));
-        row2.getChildren().add(new Hyperlink_Component().getComponentButton(components,stage));
-        row3.getChildren().add(new Code_Component_cpp(Language.CPP).getComponentButton(components,stage));
-        row3.getChildren().add(new Code_Component_cpp(Language.PYTHON).getComponentButton(components,stage));
+    void loadDock(){
+        ArrayList<Button> buttons = new ArrayList<>();
+        buttons.add(new Image_Component().getComponentButton(components,instance));
+        buttons.add(new Media_Component(true).getComponentButton(components,instance,true));
+        buttons.add(new Media_Component(false).getComponentButton(components,instance,false));
+        buttons.add(new Heading_Component().getComponentButton(components,instance));
+        buttons.add(new Paragraph_Component().getComponentButton(components,instance));
+        buttons.add((new Hyperlink_Component().getComponentButton(components,instance)));
+        buttons.add(new Code_Component_cpp(CONSTANTS.Language.CPP).getComponentButton(components,instance, CONSTANTS.Language.CPP));
+        buttons.add(new Code_Component_cpp(CONSTANTS.Language.PYTHON).getComponentButton(components,instance, CONSTANTS.Language.PYTHON));
+        buttons.add(new ToDoList_Component().getComponentButton(components,instance));
+        BottomHbox.getChildren().add(DOCK.getDock(buttons));
+    }
 
-        row3.getChildren().add(new ToDoList_Component().getComponentButton(components,stage));
-        root.getChildren().addAll(row1,row2,row3);
-        Scene scene = new Scene(root,400,300);
-        new LIB().setIconAndTitle(stage, CONSTANTS.Applicaiton_icon_path,"Select Item");
-        stage.setScene(scene);
-        stage.show();
-        stage.setOnHidden(event -> {
-            refresh();
-        });
-    }
-    private HBox getHbox(){
-        HBox root = new HBox();
-        return root;
-    }
 }

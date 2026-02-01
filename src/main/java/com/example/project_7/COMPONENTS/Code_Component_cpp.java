@@ -1,6 +1,7 @@
 package com.example.project_7.COMPONENTS;
 import com.example.project_7.CONSTANTS;
 import com.example.project_7.CONSTANTS.Language;
+import com.example.project_7.EditPageController;
 import com.example.project_7.LIB;
 
 import javafx.geometry.Pos;
@@ -107,7 +108,7 @@ public class Code_Component_cpp extends Base_Component {
     public VBox getCodeComponentCpp() {
         return root;
     }
-    public Button getComponentButton(ArrayList<Base_Component> components, Stage childStage){
+    public Button getComponentButton(ArrayList<Base_Component> components, EditPageController instance,Language language){
         Button button = new Button();
         if(language == Language.CPP){
             button.setGraphic(new LIB().loadImageView(CONSTANTS.Cpp_Icon,50));
@@ -116,8 +117,8 @@ public class Code_Component_cpp extends Base_Component {
         }
 
         button.setOnAction(e->{
-            components.add(this);
-            childStage.close();
+            components.add(new Code_Component_cpp(language));
+            instance.refresh();
         });
         return button;
     }

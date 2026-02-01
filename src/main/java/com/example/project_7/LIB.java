@@ -2,15 +2,19 @@ package com.example.project_7;
 import com.example.project_7.COMPONENTS.Base_Component;
 import com.itextpdf.html2pdf.HtmlConverter;
 
-import java.io.FileOutputStream;
+import java.awt.image.BufferedImage;
+import java.io.*;
+
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.File;
+import javax.imageio.ImageIO;
 import java.io.FileOutputStream;
+import java.util.Base64;
 import java.util.Random;
 
 public class LIB {
@@ -144,5 +148,43 @@ public class LIB {
         }
 
         System.out.println("✅ PDF created: " + outputPath);
+    }
+    public static String Image_to_string(Image fxImage)throws Exception{
+        if (fxImage == null) {
+            System.out.println("Image is null while converting to buffer");
+            return "";
+        }
+
+        // Convert JavaFX Image to BufferedImage
+        BufferedImage bImage = SwingFXUtils.fromFXImage(fxImage, null);
+
+        // Convert BufferedImage to Base64 string
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        ImageIO.write(bImage, "png", outputStream);
+        String base64 = Base64.getEncoder().encodeToString(outputStream.toByteArray());
+        return base64;
+    }
+    public static Image String_to_Image(String base64) throws Exception {
+        if (base64 == null || base64.isEmpty()) {
+            System.out.println("Image is null while converting to buffer");
+            return null;
+        };
+
+        // Decode Base64 to bytes
+        byte[] imageBytes = Base64.getDecoder().decode(base64);
+
+        // Convert bytes to BufferedImage
+        ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes);
+        BufferedImage bImage = ImageIO.read(bis);
+        bis.close();
+
+        if (bImage == null) {
+            System.out.println("Failed to decode BufferedImage from Base64");
+            return null;
+        }
+
+        // Convert BufferedImage to JavaFX Image
+        Image fxImage = SwingFXUtils.toFXImage(bImage, null);
+        return fxImage;
     }
 }

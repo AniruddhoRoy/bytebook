@@ -1,6 +1,7 @@
 package com.example.project_7.COMPONENTS;
 
 import com.example.project_7.CONSTANTS;
+import com.example.project_7.EditPageController;
 import com.example.project_7.LIB;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
@@ -206,7 +207,7 @@ void loadMediaHandeler(ActionEvent e){
         this.parentStage = stage;
         return root;
     }
-    public Button getComponentButton(ArrayList<Base_Component> components, Stage childStage){
+    public Button getComponentButton(ArrayList<Base_Component> components, EditPageController instance,boolean isVideo){
         Button button = new Button();
         if(isVideo){
         button.setGraphic(new LIB().loadImageView(CONSTANTS.Media_Video_icon,50));
@@ -217,8 +218,8 @@ void loadMediaHandeler(ActionEvent e){
         Tooltip.install(button,tooltip);
         button.setOnAction(e->{
 //            containerNode.getChildren().add(this.getIamgecomponent(childStage));
-            components.add(this);
-            childStage.close();
+            components.add(new Media_Component(isVideo));
+            instance.refresh();
         });
         return button;
     }
@@ -226,16 +227,8 @@ void loadMediaHandeler(ActionEvent e){
         return new Media_Component_Class(this.mediaPath,this.size,this.isVideo);
     }
     public String getHtml() throws Exception {
-        Image fxImage = imageView.getImage();
-        if (fxImage == null) return "";
 
-        // Convert JavaFX Image to BufferedImage
-        BufferedImage bImage = SwingFXUtils.fromFXImage(fxImage, null);
-
-        // Convert BufferedImage to Base64 string
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        ImageIO.write(bImage, "png", outputStream);
-        String base64 = Base64.getEncoder().encodeToString(outputStream.toByteArray());
+        String base64 = LIB.Image_to_string(imageView.getImage());
 
         return "<div style=\"display: flex; justify-content: center;\"><img src='data:image/png;base64," + base64 + "' style='width:auto; height:200px;' /></div>";
     }
