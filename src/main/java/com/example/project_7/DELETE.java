@@ -1,23 +1,14 @@
 //package com.example.project_7;
 //
-//import javafx.application.Application;
-//import javafx.scene.Scene;
-//import javafx.scene.layout.BorderPane;
-//
-//import javafx.stage.Stage;
-//
-//
-//public class DELETE extends Application {
-//
-//
-//    public void start(Stage stage) {
-//        BorderPane root = new BorderPane();
-//        CodeAreaCustom codeAreaCustom = new CodeAreaCustom(CONSTANTS.Language.CPP);
-//        root.setCenter(codeAreaCustom);
-//        stage.setScene(new Scene(root,500,500));
-//        stage.show();
-//    }
+//public class DELETE {
 //    public static void main(String[] args) {
-//        launch();
+//        System.out.println("Radha Madhob");
+//        RecentHandler file = new RecentHandler();
+////        file.add_recent_file(new Item("This is name1","This is path1"));
+//        for(Item item:file.get_recent_files()){
+//            System.out.println(item.name);
+//            System.out.println(item.path);
+//        }
+//
 //    }
 //}

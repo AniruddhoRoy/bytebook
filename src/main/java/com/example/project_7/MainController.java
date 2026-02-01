@@ -26,6 +26,7 @@ public class MainController {
     private ImageView openButton,createButton;
     @FXML
     public void initialize(){
+
         Image image = new Image(getClass().getResourceAsStream(CONSTANTS.Default_Home_Page_Icon));
         BackgroundImage backgroundImage = new BackgroundImage(
                 image,
@@ -52,19 +53,23 @@ public class MainController {
         String path = LIB.fileOpenDialog(parentStage,types);
         if(path!=null)
         {
-            Process_Class process = Process_Class.read(path);
-            if(process!=null){
-                try {
-                    new EditPage(parentStage,process,path).loadEditPage();
-                }catch (Exception e){
-                    System.out.println("Error While Opening");
-                    System.out.println(e);
-                }
-
-            }
+            openFile(path);
         }
     }
     // custom elements
+    private void openFile(String path){
+        System.out.println(path);
+        Process_Class process = Process_Class.read(path);
+        if(process!=null){
+            try {
+                new EditPage(parentStage,process,path).loadEditPage();
+            }catch (Exception e){
+                System.out.println("Error While Opening");
+                System.out.println(e);
+            }
+
+        }
+    }
     void enterFileNameDialog() {
 //        parentStage.close();
         Stage childStage = new Stage(StageStyle.DECORATED);
@@ -108,21 +113,25 @@ public class MainController {
         childStage.show();
     }
     void load_recent_File_TreeView(){
-        TreeView<String> treeView = new TreeView<>();
+        TreeView<Item> treeView = new TreeView<>();
         treeView.setPadding(new Insets(15,0,0,0));
         treeView.getStylesheets().add(getClass().getResource("/CSS/treeview.css").toExternalForm());
-        TreeItem<String > root = new TreeItem<>();
+        TreeItem<Item > root = new TreeItem<>();
         treeView.setRoot(root);
         treeView.setShowRoot(false);
         VBox.setVgrow(treeView, Priority.ALWAYS);
-        for(int i = 0 ; i<10 ; i++)
+
+        for(Item item:Main.recentHandler.get_recent_files())
         {
-            TreeItem<String > newTreeItem = new TreeItem<String>("Saved file name [time] ",new LIB().loadImageView(CONSTANTS.Default_Application_Extention_Logo,10));
+            TreeItem<Item > newTreeItem = new TreeItem<Item>(item,new LIB().loadImageView(CONSTANTS.Default_Application_Extention_Logo,10));
             root.getChildren().add(newTreeItem);
         }
         treeView.getSelectionModel().selectedItemProperty().addListener((obs,ov,nv)->{
-            TreeItem<String > treeItem = (TreeItem<String>) nv;
-            System.out.println(treeItem.getValue());
+//            TreeItem<Item > treeItem = (TreeItem<Item>) nv;
+            Item item = (Item) nv.getValue();
+            parentStage = (Stage) rootNode.getScene().getWindow();
+            openFile(item.path+"\\"+item.name+CONSTANTS.Applicaiton_Extention);
+
         });
         treeViewNode.getChildren().add(treeView);
     }
