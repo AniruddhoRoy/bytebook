@@ -51,4 +51,8 @@ public class RecentHandler {
     ArrayList<Item> get_recent_files(){
         return files;
     }
+    void remove_file(int idnex){
+        files.remove(idnex);
+        save();
+    }
 }

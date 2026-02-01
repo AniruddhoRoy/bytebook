@@ -20,27 +20,23 @@ import java.io.ByteArrayOutputStream;
 import java.util.Base64;
 
 public class Image_Component extends Base_Component{
-    private String  imagePath = "";
     private double size = 200;
     ImageView imageView ;
     Tooltip tooltip = new Tooltip();
     public Image_Component()
     {
         imageView = new LIB().loadImageView(CONSTANTS.Default_image_icon_path,150);
-
     }
-    public Image_Component(String imagePath,double size){
-        this.imagePath = imagePath;
+    public Image_Component(String base64,double size){
         this.size = size;
 
-        if(!imagePath.isEmpty()){
+        try{
             imageView = new ImageView();
             imageView.setPreserveRatio(true);
-            File file = new File(imagePath);
-            Image image = new Image(file.toURI().toString()); // Convert path to URI
-            imageView.setImage(image);
+            imageView.setImage(LIB.String_to_Image(base64));
             imageView.setFitHeight(size);
-        }else{
+        }catch (Exception e){
+            System.out.println("cannot convert string to image");
             imageView = new LIB().loadImageView(CONSTANTS.Default_image_icon_path,size);
             tooltip.setText("Add a new image");
         }
@@ -53,6 +49,9 @@ public class Image_Component extends Base_Component{
 
         root.getChildren().addAll(imageView);
 
+        //Explanation:
+        //It tells JavaFX to treat the entire rectangular area (the bounds) of the ImageView as clickable and hoverable,
+        // including transparent parts of the image.
         imageView.setPickOnBounds(true);
 
         // Create ContextMenu
@@ -76,7 +75,6 @@ public class Image_Component extends Base_Component{
             String[] types = {"png", "jpg", "jpeg", "gif", "bmp", "webp"};
             String path = new LIB().fileOpenDialog(stage,types);
             if(path!=null){
-                imagePath = path;
                 File file = new File(path);
                 Image image = new Image(file.toURI().toString()); // Convert path to URI
                 imageView.setImage(image);
@@ -103,21 +101,17 @@ public class Image_Component extends Base_Component{
         });
         return button;
     }
-    public Image_Component_Class export(){
-        return new Image_Component_Class(imagePath,imageView.getFitHeight());
+    public Image_Component_Class export() {
+        try{
+        return new Image_Component_Class(LIB.Image_to_string(imageView.getImage()),imageView.getFitHeight());
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return null;
     }
     public String getHtml()throws Exception{
 
-            Image fxImage = imageView.getImage();
-            if (fxImage == null) return "";
-
-            // Convert JavaFX Image to BufferedImage
-            BufferedImage bImage = SwingFXUtils.fromFXImage(fxImage, null);
-
-            // Convert BufferedImage to Base64 string
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            ImageIO.write(bImage, "png", outputStream);
-            String base64 = Base64.getEncoder().encodeToString(outputStream.toByteArray());
+            String base64 = LIB.Image_to_string(imageView.getImage());
 
             // Return HTML <img> tag with base64 data
             return "<img src='data:image/png;base64," + base64 + "' style='max-width:100%; height:auto;' />";

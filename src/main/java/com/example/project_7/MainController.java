@@ -14,6 +14,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.File;
 import java.io.IOException;
 
 public class MainController {
@@ -120,19 +121,32 @@ public class MainController {
         treeView.setRoot(root);
         treeView.setShowRoot(false);
         VBox.setVgrow(treeView, Priority.ALWAYS);
+        load(root);
 
+        treeView.getSelectionModel().selectedItemProperty().addListener((obs,ov,nv)->{
+//            TreeItem<Item > treeItem = (TreeItem<Item>) nv;
+            Item item = (Item) nv.getValue();
+            parentStage = (Stage) rootNode.getScene().getWindow();
+            String filePath = item.path+"\\"+item.name+CONSTANTS.Applicaiton_Extention;
+            File file = new File(filePath);
+            if(file.exists()){
+            openFile(filePath);
+            }else{
+                System.out.println("File not exist");
+                int index = nv.getParent().getChildren().indexOf(nv);
+                Main.recentHandler.remove_file(index);
+                load(root);
+            }
+
+        });
+        treeViewNode.getChildren().add(treeView);
+    }
+    void load(TreeItem<Item > root){
+        root.getChildren().clear();
         for(Item item:Main.recentHandler.get_recent_files())
         {
             TreeItem<Item > newTreeItem = new TreeItem<Item>(item,new LIB().loadImageView(CONSTANTS.Default_Application_Extention_Logo,10));
             root.getChildren().add(newTreeItem);
         }
-        treeView.getSelectionModel().selectedItemProperty().addListener((obs,ov,nv)->{
-//            TreeItem<Item > treeItem = (TreeItem<Item>) nv;
-            Item item = (Item) nv.getValue();
-            parentStage = (Stage) rootNode.getScene().getWindow();
-            openFile(item.path+"\\"+item.name+CONSTANTS.Applicaiton_Extention);
-
-        });
-        treeViewNode.getChildren().add(treeView);
     }
 }
