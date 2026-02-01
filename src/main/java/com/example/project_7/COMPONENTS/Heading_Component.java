@@ -20,6 +20,7 @@ public class Heading_Component extends Base_Component{
     String style_font_Size = "-fx-font-size: 20px;";
     String style_font_family = "-fx-font-family: 'Arial';";
     String style_font_color = "-fx-text-fill: darkblue;";
+    String style_font_alignment = "-fx-alignment: CENTER_LEFT;";
 
     void initComponents(){
         root = new VBox();
@@ -33,6 +34,7 @@ public class Heading_Component extends Base_Component{
         Menu font_size_menu = new Menu("Font Size");
         Menu font_family_menu = new Menu("Font Family");
         Menu font_color_menu = new Menu("Font Color");
+        Menu font_alignment_menu = new Menu("Alignment");
         MenuItem delete  = new MenuItem("Delete");
         //delete Menu Item
 
@@ -83,6 +85,16 @@ public class Heading_Component extends Base_Component{
             });
             font_color_menu.getItems().add(menuItem);
         }
+        //Working of Font Alignment
+        for(Pair<String,String> alignment : CONSTANTS.fontAlignment){
+            MenuItem menuItem = new MenuItem(alignment.getKey());
+            menuItem.setOnAction(e->{
+                style_font_alignment = alignment.getValue();
+                loadStyle();
+            });
+            font_alignment_menu.getItems().add(menuItem);
+        }
+
         // Attach context menu to VBox
         heading.setOnContextMenuRequested(event ->
                 contextMenu.show(root, event.getScreenX(), event.getScreenY())
@@ -93,6 +105,7 @@ public class Heading_Component extends Base_Component{
         contextMenu.getItems().addAll(background_menu,
                 font_weight_menu,
                 font_size_menu,
+                font_alignment_menu,
                 font_family_menu,
                 font_color_menu,
                 delete
@@ -106,6 +119,7 @@ public class Heading_Component extends Base_Component{
                         +style_font_Size
                         +style_font_family
                         +style_font_color
+                        +style_font_alignment
         );
     }
     public Heading_Component(){
@@ -118,7 +132,8 @@ public class Heading_Component extends Base_Component{
             String style_font_weight,
             String style_font_Size,
             String style_font_family,
-            String style_font_color
+            String style_font_color,
+            String style_font_alignment
     ) {
         initComponents();
         heading.setText(heading_text);
@@ -127,6 +142,7 @@ public class Heading_Component extends Base_Component{
         this.style_font_Size = style_font_Size;
         this.style_font_family = style_font_family;
         this.style_font_color = style_font_color;
+        this.style_font_alignment = style_font_alignment;
     }
     public VBox getHeadingComponent(){
         return root;
@@ -151,7 +167,8 @@ public class Heading_Component extends Base_Component{
                 style_font_weight,
                 style_font_Size,
                 style_font_family,
-                style_font_color
+                style_font_color,
+                style_font_alignment
         );
     }
     String convertFxToHtmlCss(String fxStyle) {

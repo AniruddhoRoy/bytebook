@@ -227,16 +227,8 @@ void loadMediaHandeler(ActionEvent e){
         return new Media_Component_Class(this.mediaPath,this.size,this.isVideo);
     }
     public String getHtml() throws Exception {
-        Image fxImage = imageView.getImage();
-        if (fxImage == null) return "";
 
-        // Convert JavaFX Image to BufferedImage
-        BufferedImage bImage = SwingFXUtils.fromFXImage(fxImage, null);
-
-        // Convert BufferedImage to Base64 string
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        ImageIO.write(bImage, "png", outputStream);
-        String base64 = Base64.getEncoder().encodeToString(outputStream.toByteArray());
+        String base64 = LIB.Image_to_string(imageView.getImage());
 
         return "<div style=\"display: flex; justify-content: center;\"><img src='data:image/png;base64," + base64 + "' style='width:auto; height:200px;' /></div>";
     }
