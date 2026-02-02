@@ -1,6 +1,7 @@
 package com.example.project_7.COMPONENTS;
 import com.example.project_7.CONSTANTS;
 import com.example.project_7.CONSTANTS.Language;
+import com.example.project_7.Custome_codeArea;
 import com.example.project_7.EditPageController;
 import com.example.project_7.LIB;
 
@@ -18,8 +19,8 @@ import java.util.ArrayList;
 
 public class Code_Component_cpp extends Base_Component {
     private SplitPane splitPane;
-    private CodeArea codeArea;
-//    private CodeAreaCustom codeArea;
+//    private CodeArea codeArea;
+    private Custome_codeArea codeArea;
     private double size = 400;
     VBox root = new VBox();
     Language language;
@@ -127,7 +128,8 @@ public class Code_Component_cpp extends Base_Component {
     }
     /** Create and add the code editor area */
     private void loadCodeArea() {
-        codeArea = new CodeArea();
+//        codeArea = new CodeArea();
+        codeArea = new Custome_codeArea();
         codeArea.setWrapText(true);
         codeArea.setStyle("-fx-font-size: 16px; -fx-font-family: 'Consolas';");
         codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
