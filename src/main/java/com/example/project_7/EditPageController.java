@@ -80,10 +80,12 @@ public class EditPageController {
             }
         }
         if(isPriviouslySaved){
+//            System.out.println(html);
             try {
                 LIB.export_pdf(html,filePath,fileName);
             }catch (Exception e){
                 System.out.println("Error While Exporting Html");
+                System.out.println(e);
             }
         }else{
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

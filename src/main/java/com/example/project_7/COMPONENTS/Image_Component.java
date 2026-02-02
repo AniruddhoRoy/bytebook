@@ -114,7 +114,11 @@ public class Image_Component extends Base_Component{
             String base64 = LIB.Image_to_string(imageView.getImage());
 
             // Return HTML <img> tag with base64 data
-            return "<img src='data:image/png;base64," + base64 + "' style='max-width:100%; height:auto;' />";
+//            return "<img src='data:image/png;base64," + base64 + "' style='max-width:100%; height:auto;' />";
+        return "<div style='text-align: center; padding:10px'>" +
+                "<img src='data:image/png;base64," + base64 + "' style='max-width:100%; height:auto;' />" +
+                "</div>";
+
 
     }
 }

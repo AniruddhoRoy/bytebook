@@ -122,16 +122,14 @@ public class LIB {
                   <title>Exported PDF</title>
                   <style>
                     * {
-                      margin: 0;
+                      margin: 3px;
                       padding: 0;
                       box-sizing: border-box;
                     }
                     body {
                       font-family: Arial, sans-serif;
-                      display: flex;
-                      flex-direction: column;
-                      gap: 5px;
-                      padding: 10px;
+              
+                      
                     }
                   </style>
                 </head>
