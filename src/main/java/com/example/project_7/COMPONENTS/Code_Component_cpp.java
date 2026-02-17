@@ -33,20 +33,14 @@ public class Code_Component_cpp extends Base_Component {
         Menu size_menu = new Menu("Size");
         MenuItem delete = new MenuItem("Delete");
         MenuItem run = new MenuItem("run code");
-        MenuItem x1 = new MenuItem("1x");
-        MenuItem x2 = new MenuItem("2x");
-        MenuItem x3 = new MenuItem("3x");
-        MenuItem x4 = new MenuItem("4x");
-        x1.setOnAction((e) -> {
-            updateSize(300);});
-        x2.setOnAction((e) -> {
-            updateSize(400);});
-        x3.setOnAction((e) -> {
-            updateSize(500);});
-        x4.setOnAction((e) -> {
-            updateSize(600);});
-// Add items to submenu
-        size_menu.getItems().addAll(x1, x2, x3, x4);
+        int[] heights = {200, 250, 300, 350, 400, 450, 500};
+        for(int h:heights){
+            MenuItem item = new MenuItem(h+" px");
+            item.setOnAction(e->{
+                updateSize(h);
+            });
+            size_menu.getItems().add(item);
+        }
         run.setOnAction(e-> {
             if(language==Language.CPP){
                 runCpp(codeArea.getText());
@@ -61,7 +55,6 @@ public class Code_Component_cpp extends Base_Component {
             contextMenu.show(area,event.getScreenX(), event.getScreenY());
         });
     }
-
     public  String escapeForHtml(String code) {
 
         return code

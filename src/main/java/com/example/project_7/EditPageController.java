@@ -8,6 +8,7 @@ import com.example.project_7.COMPONENTS.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -33,14 +34,15 @@ public class EditPageController {
     String filePath;
     String fileName;
     @FXML
+    private VBox containerNode;
+    @FXML
     public void initialize() {
         instance = this;
         loadDock();
     }
     @FXML
     private BorderPane rootNode;
-    @FXML
-    private VBox containerNode;
+
     @FXML
     private void exportToPdfButtonHandeler(){
         refresh();

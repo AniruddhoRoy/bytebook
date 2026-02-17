@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -12,7 +13,10 @@
    <center>
       <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="394.0" prefWidth="679.0" BorderPane.alignment="CENTER">
          <content>
-            <VBox fx:id="containerNode" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="486.0" prefWidth="998.0" />
+            <VBox fx:id="containerNode" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="486.0" prefWidth="998.0">
+               <padding>
+                  <Insets left="40.0" right="40.0" />
+               </padding></VBox>
          </content>
       </ScrollPane>
    </center>
@@ -30,11 +34,6 @@
               <MenuItem mnemonicParsing="false" text="Delete" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="Manage_Student">
-              <items>
-                <MenuItem mnemonicParsing="false" onAction="#AttendanceDialogHandeller" text="Attendance" />
-              </items>
-            </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
               <MenuItem mnemonicParsing="false" text="About" />
