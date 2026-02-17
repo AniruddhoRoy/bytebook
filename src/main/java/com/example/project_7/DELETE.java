@@ -17,14 +17,7 @@ public class DELETE extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-       Custome_codeArea codeArea = new Custome_codeArea();
 
-        BorderPane root = new BorderPane();
-        root.setCenter(codeArea);
-        Scene scene = new Scene(root,400,400);
-
-        stage.setScene(scene);
-        stage.show();
     }
 
     public static void main(String[] args) {

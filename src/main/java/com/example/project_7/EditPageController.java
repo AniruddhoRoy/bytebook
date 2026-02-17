@@ -156,7 +156,7 @@ public class EditPageController {
                 process.save(path);
                 isPriviouslySaved = true;
             }
-            Main.recentHandler.add_recent_file(new Item(process.fileName,path));
+            Main.recentHandler.add_recent_file(new Item(process.fileName,path+"\\"+process.fileName+CONSTANTS.Applicaiton_Extention));
         }else{
             process.save(this.filePath);
         }
