@@ -9,6 +9,7 @@ module com.example.project_7 {
     requires reactfx;
     requires html2pdf;
     requires javafx.swing;
+    requires javafx.graphics;
 
     opens com.example.project_7 to javafx.fxml;
     exports com.example.project_7;
