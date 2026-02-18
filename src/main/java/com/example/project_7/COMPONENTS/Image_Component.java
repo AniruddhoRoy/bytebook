@@ -20,12 +20,17 @@ import java.io.ByteArrayOutputStream;
 import java.util.Base64;
 
 public class Image_Component extends Base_Component{
+    //image display size
     private double size = 200;
     ImageView imageView ;
+    //after hovering shows text
     Tooltip tooltip = new Tooltip();
     public Image_Component()
     {
-        imageView = new LIB().loadImageView(CONSTANTS.Default_image_icon_path,150);
+        //default placeholder image loads
+        imageView = new LIB().loadImageView(
+                CONSTANTS.Default_image_icon_path,150
+        );
     }
     public Image_Component(String base64,double size){
         this.size = size;
@@ -67,17 +72,47 @@ public class Image_Component extends Base_Component{
         x2.setOnAction(e -> imageView.setFitHeight(200));
         x3.setOnAction(e -> imageView.setFitHeight(300));
         x4.setOnAction(e -> imageView.setFitHeight(400));
-// Add items to submenu
+        // Add items to submenu
         size.getItems().addAll(x1, x2, x3, x4);
-        delete.setOnAction(this::delete);
+        delete.setOnAction(e -> {
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Delete Image");
+            alert.setHeaderText("Are you sure?");
+            alert.setContentText("Do you really want to delete this image?");
+
+            alert.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    delete(e); // Base_Component delete
+                }
+            });
+        });
         contextMenu.getItems().addAll(loadImage, size,delete);
         loadImage.setOnAction(e->{
             String[] types = {"png", "jpg", "jpeg", "gif", "bmp", "webp"};
             String path = new LIB().fileOpenDialog(stage,types);
+
+            if (path == null) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("No Image Selected");
+                alert.setHeaderText(null);
+                alert.setContentText("Please select an image file.");
+                alert.show();
+                return;
+            }
+            //shows selected image
+
             if(path!=null){
                 File file = new File(path);
                 Image image = new Image(file.toURI().toString()); // Convert path to URI
                 imageView.setImage(image);
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                  alert.setTitle("Image Loaded");
+                  alert.setHeaderText("Success");
+                  alert.setContentText("Image loaded successfully:\n" + file.getName());
+                  alert.show();
+
                 //update tooltip text with file name
                 tooltip.setText("Image: "+file.getName());
             }

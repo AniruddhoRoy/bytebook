@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 import javax.imageio.IIOException;
 import java.io.IOException;
 
-public class Main extends Application {
+public class  Main extends Application {
     public static RecentHandler recentHandler = new RecentHandler();
     public static void main(String[] args) {
         launch(args);

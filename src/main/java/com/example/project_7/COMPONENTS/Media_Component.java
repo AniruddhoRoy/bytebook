@@ -24,30 +24,42 @@ import java.util.ArrayList;
 import java.util.Base64;
 
 public class Media_Component extends Base_Component{
+    //media file path(audio/video)
     private String mediaPath = "";
+    //media display size(height)
     private double size = 200;
+    //root layout container
     VBox root;
+    //determine whether media is video or audio
     boolean isVideo = false;
+    //shows imageicon
     ImageView imageView;
+    //parent stage(used for file chooser)
     Stage parentStage;
+    //media objects
     Media media;
     MediaPlayer mediaPlayer;
     MediaView mediaView;
+    //media control button
     Button playButton = new Button("Play");
     Button pauseButton = new Button("Pause");
     Button resetButton = new Button("Reset");
+    //constructor
     public Media_Component(boolean isVideo){
-        this.isVideo = isVideo;
-        initComponent();
+        this.isVideo = isVideo;//decides audio or video
+        initComponent();//initial UI setup
     }
+    //restore saved media
     public Media_Component(String mediaPath,Double size,boolean isVideo){
         this.isVideo = isVideo;
         this.size = size;
         this.mediaPath = mediaPath;
         initComponent();
+        //create file obj
         File file = new File(mediaPath);
 
         // 🔹 Detach and safely dispose old player
+        //for avoiding memory leak
         if (mediaView != null) mediaView.setMediaPlayer(null);
         if (mediaPlayer != null) {
             mediaPlayer.stop();
@@ -69,7 +81,7 @@ public class Media_Component extends Base_Component{
         // 🔹 Wait until ready before showing video
         mediaPlayer.setOnReady(() -> {
             if (isVideo) {
-                root.getChildren().add(mediaView);
+                root.getChildren().add(mediaView);//show video
             } else {
                 imageView = new LIB().loadImageView(CONSTANTS.Media_music_disk_icon, size);
                 addContextMenuTOImageVIew();
@@ -78,19 +90,25 @@ public class Media_Component extends Base_Component{
             addMediaControlButtons();
     });
     }
+    //layout
     void initComponent(){
         root = new VBox();
         root.setAlignment(Pos.CENTER);
 
+        //video icon
         if(isVideo){
             imageView = new LIB().loadImageView(CONSTANTS.Media_Video_icon,this.size);
         }
         else {
         imageView = new LIB().loadImageView(CONSTANTS.Media_music_icon,this.size);
         }
+
+        //default placeholder view
         addContextMenuTOImageVIew();
         root.getChildren().add(imageView);
     }
+
+    //load media event handler
 void loadMediaHandeler(ActionEvent e){
     String[] types = isVideo
             ? new String[]{"mp4", "mkv", "avi", "mov", "wmv", "flv", "webm", "mpeg", "mpg", "3gp"}
@@ -99,7 +117,9 @@ void loadMediaHandeler(ActionEvent e){
     String path = new LIB().fileOpenDialog(parentStage, types);
     if (path == null) return;
 
+    //save selected media
     mediaPath = path;
+
     File file = new File(path);
 
     // 🔹 Detach and safely dispose old player
@@ -110,6 +130,7 @@ void loadMediaHandeler(ActionEvent e){
         mediaPlayer = null;
     }
 
+    //media load and prepare
     media = new Media(file.toURI().toString());
     mediaPlayer = new MediaPlayer(media);
     mediaView = new MediaView(mediaPlayer);
