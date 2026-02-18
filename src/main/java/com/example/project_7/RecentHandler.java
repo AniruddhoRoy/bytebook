@@ -55,4 +55,14 @@ public class RecentHandler {
         files.remove(idnex);
         save();
     }
+    boolean isexist(String name,String path){
+        for(Item item:files){
+            if(item.path.equals(path)){
+               return true;
+            }
+        }
+        files.add(new Item(name,path));
+        save();
+        return false;
+    }
 }

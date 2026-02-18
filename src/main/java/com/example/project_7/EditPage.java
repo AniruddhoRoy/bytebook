@@ -63,6 +63,8 @@ public class EditPage {
             editPageController.refresh();
         }
         stage.setOnCloseRequest(e->{
+//            new MainController().load_recent_File_TreeView();
+            Main.controller.load_recent_File_TreeView();
             parentStage.show();
         });
     }

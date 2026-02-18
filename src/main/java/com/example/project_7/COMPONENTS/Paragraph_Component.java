@@ -25,34 +25,43 @@ public class Paragraph_Component extends Base_Component {
     WebView webViewHtmlEditor = (WebView) htmlEditor.lookup(".web-view");
     VBox root = new VBox();
     double size = 300;
-    private boolean unlocked=false;//password status
     void setHeight(double val){
         webView.setMinHeight(val);
         webViewHtmlEditor.setMinHeight(val);
         this.size = val;
     }
-    void addContextMenu(){
-        ContextMenu contextMenu = new ContextMenu();
-        Menu size = new Menu("Size");
-        MenuItem delete = new MenuItem("Delete");
-        delete.setOnAction(this::delete);
-        MenuItem x1 = new MenuItem("1x");
-        MenuItem x2 = new MenuItem("2x");
-        MenuItem x3 = new MenuItem("3x");
-        MenuItem x4 = new MenuItem("4x");
-        x1.setOnAction(e -> setHeight(100));
-        x2.setOnAction(e -> setHeight(200));
-        x3.setOnAction(e -> setHeight(300));
-        x4.setOnAction(e -> setHeight(400));
-// Add items to submenu
-        size.getItems().addAll(x1, x2, x3, x4);
-        contextMenu.getItems().addAll(size,delete);
-        webViewHtmlEditor.setContextMenuEnabled(false);
-        webViewHtmlEditor.setOnContextMenuRequested(e->{
-            contextMenu.show(root,e.getScreenX(),e.getScreenY());
-        });
+void addContextMenu() {
+    ContextMenu contextMenu = new ContextMenu();
 
+    // Size menu
+    Menu sizeMenu = new Menu("Size");
+
+    // Height options in pixels
+    int[] heights = {100, 150, 200, 250, 300, 350, 400, 450, 500};
+
+    // Add MenuItems dynamically
+    for (int h : heights) {
+        MenuItem item = new MenuItem(h + " px");
+        item.setOnAction(e -> setHeight(h));
+        sizeMenu.getItems().add(item);
     }
+
+    // Delete option
+    MenuItem delete = new MenuItem("Delete");
+    delete.setOnAction(this::delete);
+
+    // Add menus to context menu
+    contextMenu.getItems().addAll(sizeMenu, delete);
+
+    // Disable default HTMLEditor WebView context menu
+    webViewHtmlEditor.setContextMenuEnabled(false);
+
+    // Show custom context menu on right-click
+    webViewHtmlEditor.setOnContextMenuRequested(e -> {
+        contextMenu.show(root, e.getScreenX(), e.getScreenY());
+    });
+}
+
     public Paragraph_Component(){
         setHeight(size);
       addContextMenu();

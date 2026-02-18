@@ -1,7 +1,7 @@
 package com.example.project_7.COMPONENTS;
 import com.example.project_7.CONSTANTS;
 import com.example.project_7.CONSTANTS.Language;
-import com.example.project_7.Custome_codeArea;
+
 import com.example.project_7.EditPageController;
 import com.example.project_7.LIB;
 
@@ -10,20 +10,20 @@ import javafx.scene.control.*;
 
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+
 import org.fxmisc.richtext.CodeArea;
-import org.fxmisc.richtext.LineNumberFactory;
+
 
 import java.io.*;
 import java.util.ArrayList;
 
 public class Code_Component_cpp extends Base_Component {
     private SplitPane splitPane;
-//    private CodeArea codeArea;
-    private Custome_codeArea codeArea;
-    private double size = 400;
+    private CodeArea codeArea;
+    private double size = 300;
     VBox root = new VBox();
     Language language;
+    private String font_style = "-fx-font-size: 16px; -fx-font-family: 'Consolas';";
     void updateSize(double val){
         this.size = val;
         splitPane.setMinHeight(this.size);
@@ -31,22 +31,26 @@ public class Code_Component_cpp extends Base_Component {
     void addContextMenu(CodeArea area){
         ContextMenu contextMenu = new ContextMenu();
         Menu size_menu = new Menu("Size");
+        Menu font_size_menu = new Menu("Font_Size");
         MenuItem delete = new MenuItem("Delete");
         MenuItem run = new MenuItem("run code");
-        MenuItem x1 = new MenuItem("1x");
-        MenuItem x2 = new MenuItem("2x");
-        MenuItem x3 = new MenuItem("3x");
-        MenuItem x4 = new MenuItem("4x");
-        x1.setOnAction((e) -> {
-            updateSize(300);});
-        x2.setOnAction((e) -> {
-            updateSize(400);});
-        x3.setOnAction((e) -> {
-            updateSize(500);});
-        x4.setOnAction((e) -> {
-            updateSize(600);});
-// Add items to submenu
-        size_menu.getItems().addAll(x1, x2, x3, x4);
+        int[] heights = {200, 250, 300, 350, 400, 450, 500};
+        for(int h:heights){
+            MenuItem item = new MenuItem(h+" px");
+            item.setOnAction(e->{
+                updateSize(h);
+            });
+            size_menu.getItems().add(item);
+        }
+        int[] font_sizes = {12, 14, 16, 18, 20, 22, 24};
+        for(int size:font_sizes){
+            MenuItem item = new MenuItem(size+" px");
+            item.setOnAction(e->{
+                font_style = "-fx-font-size: "+size+"px; -fx-font-family: 'Consolas';";
+                codeArea.setStyle(font_style);
+            });
+            font_size_menu.getItems().add(item);
+        }
         run.setOnAction(e-> {
             if(language==Language.CPP){
                 runCpp(codeArea.getText());
@@ -56,12 +60,11 @@ public class Code_Component_cpp extends Base_Component {
 
         });
         delete.setOnAction(this::delete);
-        contextMenu.getItems().addAll(size_menu,run,delete);
+        contextMenu.getItems().addAll(size_menu,font_size_menu,run,delete);
         area.setOnContextMenuRequested(event ->{
             contextMenu.show(area,event.getScreenX(), event.getScreenY());
         });
     }
-
     public  String escapeForHtml(String code) {
 
         return code
@@ -95,8 +98,9 @@ public class Code_Component_cpp extends Base_Component {
         root.setAlignment(Pos.CENTER);
         root.getChildren().add(splitPane);
     }
-    public Code_Component_cpp(double size,String code ,Language language){
+    public Code_Component_cpp(double size,String code ,Language language,String font_style){
         this.language = language;
+        this.font_style = font_style;
         splitPane = new SplitPane();
         updateSize(size);
         loadCodeArea();
@@ -124,15 +128,15 @@ public class Code_Component_cpp extends Base_Component {
         return button;
     }
     public Code_Component_cpp_Class export(){
-        return new Code_Component_cpp_Class(size,codeArea.getText(),language);
+        return new Code_Component_cpp_Class(size,codeArea.getText(),language,font_style);
     }
     /** Create and add the code editor area */
     private void loadCodeArea() {
-//        codeArea = new CodeArea();
-        codeArea = new Custome_codeArea();
+        codeArea = new CodeArea();
+//        codeArea = new Custome_codeArea();
         codeArea.setWrapText(true);
-        codeArea.setStyle("-fx-font-size: 16px; -fx-font-family: 'Consolas';");
-        codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
+        codeArea.setStyle(font_style);
+//        codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
         if(language==Language.CPP){
             codeArea.replaceText(CONSTANTS.Cpp_default_snippet);
         } else if (language==Language.PYTHON) {
