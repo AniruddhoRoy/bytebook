@@ -8,7 +8,6 @@ import com.example.project_7.COMPONENTS.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 
-import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -24,6 +23,8 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Optional;
+
+import static com.example.project_7.Dialogs.ErrorAlert;
 
 public class EditPageController {
     public static EditPageController instance;
@@ -53,6 +54,7 @@ public class EditPageController {
                 try {
                     html += ((Image_Component) component).getHtml();
                 }catch (Exception e){
+                    ErrorAlert("Something broken !","Export Error","Error Reading image in pdf");
                     System.out.println("Error Reading image in pdf");
                 }
             }
@@ -64,6 +66,7 @@ public class EditPageController {
                 try{
                     html+= ((Media_Component) component).getHtml();
                 }catch (Exception e){
+                    ErrorAlert("Something broken !","Export Error","Error Reading media in pdf");
                     System.out.println("Error Reading media in pdf");
                 }
             }
@@ -86,41 +89,43 @@ public class EditPageController {
             try {
                 LIB.export_pdf(html,filePath,fileName);
             }catch (Exception e){
+                ErrorAlert("Something broken !","PDF Export Error","Error While Exporting to Html conversion");
                 System.out.println("Error While Exporting Html");
                 System.out.println(e);
             }
         }else{
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Save Changes");
-            alert.setHeaderText("You Have to save current file to export PDF");
-
-            ButtonType saveButton = new ButtonType("Save");
-            ButtonType cancelButton = new ButtonType("Cancel");
-
-            // Remove default buttons and add custom ones
-            alert.getButtonTypes().setAll(saveButton, cancelButton);
-
-            Optional<ButtonType> result = alert.showAndWait();
-
-            if (result.isPresent()) {
-                if (result.get() == saveButton) {
+//            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+//            alert.setTitle("Save Changes");
+//            alert.setHeaderText("You Have to save current file to export PDF");
+//
+//            ButtonType saveButton = new ButtonType("Save");
+//            ButtonType cancelButton = new ButtonType("Cancel");
+//
+//            // Remove default buttons and add custom ones
+//            alert.getButtonTypes().setAll(saveButton, cancelButton);
+//
+//            Optional<ButtonType> result = alert.showAndWait();
+//
+//            if (result.isPresent()) {
+//                if (result.get() == saveButton) {
 
                     saveButtonHandeler();
                     try {
                         LIB.export_pdf(html,filePath,fileName);
                     }catch (Exception e){
+                        ErrorAlert("Something broken !","PDF Export Error","Error While Exporting to Html conversion");
                         System.out.println("Error While Exporting Html");
                     }
-                }  else {
-                    System.out.println("User canceled the action.");
-
-                }
-            }
+//                }  else {
+//                    System.out.println("User canceled the action.");
+//
+//                }
+//            }
         }
 
     }
     @FXML
-     private void saveButtonHandeler(){
+     public void saveButtonHandeler(){
         parentStage = (Stage) rootNode.getScene().getWindow();
         process.fileName = parentStage.getTitle();
         process.components.clear();
@@ -154,9 +159,10 @@ public class EditPageController {
                 this.fileName = process.fileName;
                 this.filePath = path;
                 process.save(path);
+                Main.recentHandler.add_recent_file(new Item(process.fileName,path+"\\"+process.fileName+CONSTANTS.Applicaiton_Extention));
                 isPriviouslySaved = true;
             }
-            Main.recentHandler.add_recent_file(new Item(process.fileName,path+"\\"+process.fileName+CONSTANTS.Applicaiton_Extention));
+
         }else{
             process.save(this.filePath);
         }
@@ -195,25 +201,25 @@ public class EditPageController {
         }
     }
     //custom dialog
-    @FXML
-    public void AttendanceDialogHandeller(){
-        try {
-            // Load the FXML for the new window
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Attendance.fxml"));
-            Parent root = fxmlLoader.load();
-
-            // Create new stage
-            Stage stage = new Stage();
-            stage.setTitle("New Stage Window");
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setScene(new Scene(root));
-            stage.setResizable(false);
-            stage.show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    @FXML
+//    public void AttendanceDialogHandeller(){
+//        try {
+//            // Load the FXML for the new window
+//            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Attendance.fxml"));
+//            Parent root = fxmlLoader.load();
+//
+//            // Create new stage
+//            Stage stage = new Stage();
+//            stage.setTitle("New Stage Window");
+//            stage.initModality(Modality.APPLICATION_MODAL);
+//            stage.setScene(new Scene(root));
+//            stage.setResizable(false);
+//            stage.show();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
     void loadDock(){
         ArrayList<Button> buttons = new ArrayList<>();
         buttons.add(new Image_Component().getComponentButton(components,instance));

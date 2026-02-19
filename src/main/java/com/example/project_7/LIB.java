@@ -17,6 +17,8 @@ import java.io.FileOutputStream;
 import java.util.Base64;
 import java.util.Random;
 
+import static com.example.project_7.Dialogs.InformationAlert;
+
 public class LIB {
     private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
@@ -146,6 +148,7 @@ public class LIB {
         }
 
         System.out.println("✅ PDF created: " + outputPath);
+        InformationAlert("Export To PDF","✅ PDF created: Successful",outputPath);
     }
     public static String Image_to_string(Image fxImage)throws Exception{
         if (fxImage == null) {

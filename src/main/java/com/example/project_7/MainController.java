@@ -15,6 +15,8 @@ import javafx.stage.StageStyle;
 
 import java.io.File;
 
+import static com.example.project_7.Dialogs.ErrorAlert;
+
 
 public class MainController {
     Stage parentStage;
@@ -69,52 +71,70 @@ public class MainController {
             }catch (Exception e){
                 System.out.println("Error While Opening");
                 System.out.println(e);
+                ErrorAlert("Opening Error","Error While Opening",path);
             }
 
         }
     }
     void enterFileNameDialog() {
-//        parentStage.close();
+
         Stage childStage = new Stage(StageStyle.DECORATED);
         childStage.initModality(Modality.APPLICATION_MODAL);
         childStage.initOwner(parentStage);
-        HBox row1 = new HBox();
-        row1.setAlignment(Pos.CENTER);
-        row1.setSpacing(10);
-        HBox row2 = new HBox();
-        Button confirm = new Button("Confirm");
-        row2.setAlignment(Pos.CENTER);
-        row2.getChildren().addAll(confirm);
-        HBox row3 = new HBox();
-        row3.setAlignment(Pos.CENTER);
+        childStage.setTitle("Create File");
+
+        // ===== Label + Input =====
+        Label fileNameLabel = new Label("File Name:");
+
+        TextField fileNameTextField = new TextField();
+        fileNameTextField.setPromptText("Enter file name...");
+        fileNameTextField.setPrefWidth(200);
+
+        HBox inputRow = new HBox(10, fileNameLabel, fileNameTextField);
+        inputRow.setAlignment(Pos.CENTER_LEFT);
+
+        // ===== Error Message =====
         Label errorMsg = new Label();
         errorMsg.setStyle("-fx-text-fill: red;");
-        row3.getChildren().addAll(errorMsg);
-        VBox  root= new VBox();
-        root.setAlignment(Pos.CENTER);
-        TextField fileNameTextField = new TextField();
-        fileNameTextField.setPromptText("Enter File Name");
-        Label filenamelabel = new Label("File Name");
-        row1.getChildren().addAll(filenamelabel,fileNameTextField);
-        root.setSpacing(10);
-        root.getChildren().addAll(row1,row2,row3);
-        childStage.setScene(new Scene(root,300,100));
-        confirm.setOnAction((e)->{
-            if(LIB.isValidFileName(fileNameTextField.getText())){
+
+        // ===== Button =====
+        Button confirm = new Button("Confirm");
+        confirm.setDefaultButton(true); // press Enter to confirm
+        confirm.setPrefWidth(100);
+
+        HBox buttonRow = new HBox(confirm);
+        buttonRow.setAlignment(Pos.CENTER_RIGHT);
+
+        // ===== Root Layout =====
+        VBox root = new VBox(15);
+        root.setPadding(new Insets(20));
+        root.setAlignment(Pos.CENTER_LEFT);
+        root.getChildren().addAll(inputRow, errorMsg, buttonRow);
+
+        Scene scene = new Scene(root, 350, 150);
+        childStage.setScene(scene);
+
+        // ===== Button Action =====
+        confirm.setOnAction(e -> {
+            String fileName = fileNameTextField.getText().trim();
+
+            if (LIB.isValidFileName(fileName)) {
                 childStage.close();
                 try {
-                    new EditPage(parentStage,fileNameTextField.getText()).loadEditPage();
-                }catch (Exception exception){
-                    System.out.println("Error while loading editpage");
-                    System.out.println(exception);
+                    new EditPage(parentStage, fileName).loadEditPage();
+                } catch (Exception exception) {
+                    System.out.println("Error while loading edit page");
+                    exception.printStackTrace();
+                    ErrorAlert("Creating Error","Error While Creating file !","FILE :"+fileName);
                 }
-
-            }else{
-                errorMsg.setText("Not a valid name !");
+            } else {
+                errorMsg.setText("Please enter a valid file name.");
             }
         });
-        childStage.show();
+
+        childStage.showAndWait();
     }
+
    public  void load_recent_File_TreeView(){
 
        treeViewNode.getChildren().clear();

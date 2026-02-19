@@ -9,6 +9,8 @@ import javafx.stage.StageStyle;
 import java.io.File;
 import java.io.IOException;
 
+import static com.example.project_7.Dialogs.ConformationAlert;
+
 public class EditPage {
     String fileName;
     Stage parentStage;
@@ -31,9 +33,10 @@ public class EditPage {
         Stage stage = new Stage(StageStyle.DECORATED);
         stage.setScene(scene);
         stage.show();
-        stage.setTitle(fileName);
+        new LIB().setIconAndTitle(stage,CONSTANTS.Applicaiton_icon_path,fileName);
+        EditPageController editPageController = loader.getController();
         if(process!=null){
-            EditPageController editPageController = loader.getController();
+
             for(Component_Base_Classes components : process.components){
                 if(components instanceof Image_Component_Class){
                     editPageController.components.add(((Image_Component_Class) components).export());
@@ -63,7 +66,12 @@ public class EditPage {
             editPageController.refresh();
         }
         stage.setOnCloseRequest(e->{
-//            new MainController().load_recent_File_TreeView();
+            if(!editPageController.isPriviouslySaved){
+               boolean response = ConformationAlert("Current file is not saved ❌","Save the File : ?","");
+               if(response){
+                   editPageController.saveButtonHandeler();
+               }
+            }
             Main.controller.load_recent_File_TreeView();
             parentStage.show();
         });

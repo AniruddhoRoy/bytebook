@@ -16,7 +16,7 @@ public class Dialogs {
         alert.setTitle(title);
         alert.setHeaderText(heading);
         alert.setContentText(msg);
-        alert.show();
+        alert.showAndWait();
     }
 
     public static void WarningAlert(String title,String heading,String msg)
@@ -37,7 +37,7 @@ public class Dialogs {
         alert.show();
     }
 
-    public static void ConformationAlert(String title,String heading,String msg)
+    public static boolean ConformationAlert(String title,String heading,String msg)
     {
         Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);
@@ -46,12 +46,13 @@ public class Dialogs {
         Optional<ButtonType> result=alert.showAndWait();
         if(result.get()==ButtonType.OK)
         {
-            System.out.println("File deleted successfully");
+            return true;
         }
         else if(result.get()==ButtonType.CANCEL)
         {
-            System.out.println("canceled");
+            return false;
         }
+        return false;
     }
 
     /////////Dialogs////////

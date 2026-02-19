@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 
 import java.util.Optional;
 
+import static com.example.project_7.Dialogs.ErrorAlert;
 import static com.example.project_7.Dialogs.InformationAlert;
 
 public class DELETE extends Application{
@@ -31,7 +32,7 @@ public class DELETE extends Application{
 
         button.setOnAction(e->{
             try {
-                InformationAlert("this is information alart","this is heading","this is message");
+                ErrorAlert("this is information alart","this is heading","this is message");
             }catch (Exception exception){
                 System.out.println(exception);
             }
