@@ -35,8 +35,6 @@ public class Hyperlink_Component extends Base_Component{
         initComponent();
     }
 
-
-
     private void initComponent(){
         root=new VBox();
         root.setAlignment(Pos.CENTER);

@@ -201,7 +201,20 @@ void loadMediaHandeler(ActionEvent e){
         x4.setOnAction(e -> imageView.setFitHeight(400));
 // Add items to submenu
         size.getItems().addAll(x1, x2, x3, x4);
-        delete.setOnAction(this::delete);
+        delete.setOnAction(e->{
+            Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Delete Media");
+            alert.setHeaderText("Are you sure?");
+            alert.setContentText("do you really want to delete this Media?");
+
+            //wait for user response
+            alert.showAndWait().ifPresent(response->{
+                if(response==ButtonType.OK)
+                {
+                    delete(e);//call Base_Component delete
+                }
+            });
+        });
         contextMenu.getItems().addAll(loadMedia, size,delete);
         imageView.setOnContextMenuRequested(event ->{
             contextMenu.show(imageView,event.getScreenX(), event.getScreenY());

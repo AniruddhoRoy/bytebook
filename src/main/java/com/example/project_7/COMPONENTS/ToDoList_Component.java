@@ -64,7 +64,20 @@ public class ToDoList_Component extends Base_Component {
         root.getChildren().addAll(TodoListHading,inputBinder,Binder);
         ContextMenu contextMenu = new ContextMenu();
         MenuItem delete = new MenuItem("Delete");
-        delete.setOnAction(this::delete);
+        delete.setOnAction(e->{
+            Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Delete To-Do List");
+            alert.setHeaderText("Are you sure?");
+            alert.setContentText("do you really want to delete this To-Do List?");
+
+            //wait for user response
+            alert.showAndWait().ifPresent(response->{
+                if(response==ButtonType.OK)
+                {
+                    delete(e);//call Base_Component delete
+                }
+            });
+        });
         contextMenu.getItems().add(delete);
         root.setOnContextMenuRequested(e->{
             contextMenu.show(root,e.getScreenX(),e.getScreenY());
