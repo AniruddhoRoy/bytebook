@@ -59,7 +59,20 @@ public class Code_Component_cpp extends Base_Component {
             }
 
         });
-        delete.setOnAction(this::delete);
+        delete.setOnAction(e->{
+            Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Delete code");
+            alert.setHeaderText("Are you sure?");
+            alert.setContentText("do you really want to delete this code?");
+
+            //wait for user response
+            alert.showAndWait().ifPresent(response->{
+                if(response==ButtonType.OK)
+                {
+                    delete(e);//call Base_Component delete
+                }
+            });
+        });
         contextMenu.getItems().addAll(size_menu,font_size_menu,run,delete);
         area.setOnContextMenuRequested(event ->{
             contextMenu.show(area,event.getScreenX(), event.getScreenY());

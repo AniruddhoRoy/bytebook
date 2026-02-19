@@ -38,7 +38,20 @@ public class Heading_Component extends Base_Component{
         MenuItem delete  = new MenuItem("Delete");
         //delete Menu Item
 
-        delete.setOnAction(this::delete);
+        delete.setOnAction(e->{
+            Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Delete Heading");
+            alert.setHeaderText("Are you sure?");
+            alert.setContentText("do you really want to delete this Heading?");
+
+            //wait for user response
+            alert.showAndWait().ifPresent(response->{
+                if(response==ButtonType.OK)
+                {
+                    delete(e);//call Base_Component delete
+                }
+            });
+        });
         //Working of Background menu
         for(Pair<String,String> color : CONSTANTS.Background_colors){
             MenuItem menuItem = new MenuItem(color.getKey());
