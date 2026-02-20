@@ -16,6 +16,9 @@ import java.awt.*;
 import java.net.URI;
 import java.util.ArrayList;
 
+import static com.example.project_7.Dialogs.ConformationAlert;
+import static com.example.project_7.Dialogs.ErrorAlert;
+
 public class Hyperlink_Component extends Base_Component{
     //main layout container
     private VBox root;
@@ -83,18 +86,9 @@ public class Hyperlink_Component extends Base_Component{
             });
         });
         delete.setOnAction(e->{
-            Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Delete Hyperlink");
-            alert.setHeaderText("Are you sure?");
-            alert.setContentText("do you really want to delete this hyperlink?");
-
-            //wait for user response
-            alert.showAndWait().ifPresent(response->{
-                if(response==ButtonType.OK)
-                {
-                    delete(e);//call Base_Component delete
-                }
-            });
+            if(ConformationAlert("Delete code","Are you sure?","do you really want to delete this code?")){
+                delete(e);
+            }
         });
         menu.getItems().addAll(editText,editLink,delete);
         //right click event handler
@@ -109,11 +103,12 @@ public class Hyperlink_Component extends Base_Component{
         try{
             Desktop.getDesktop().browse(new URI(urlText));
         }catch (Exception e){
-            Alert alert=new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Invalid URL");
-            alert.setHeaderText("Cannot open link");
-            alert.setContentText("The URL is not valid:\n"+urlText);
-            alert.show();
+            ErrorAlert("Invalid URL","Cannot open link","The URL is not valid:\n"+urlText);
+//            Alert alert=new Alert(Alert.AlertType.ERROR);
+//            alert.setTitle("Invalid URL");
+//            alert.setHeaderText("Cannot open link");
+//            alert.setContentText("The URL is not valid:\n"+urlText);
+//            alert.show();
         }
     }
     //Return UI part
@@ -139,13 +134,15 @@ public class Hyperlink_Component extends Base_Component{
     }
     public String getHtml(){
         String html = """
-                <div style="text-align: center;">
-                  <a href="%s" style="text-decoration: none; color: blue; font-size: 18px;">
-                    %s
-                  </a>
-                </div>
-                                
-                """.formatted(urlText,displayText);
+            <div style="text-align: center;">
+              <a href="%s"
+                 target="_blank"
+                 style="text-decoration: none; color: blue; font-size: 18px;">
+                %s
+              </a>
+            </div>
+            """.formatted(urlText, displayText);
+
         return html;
     }
 }

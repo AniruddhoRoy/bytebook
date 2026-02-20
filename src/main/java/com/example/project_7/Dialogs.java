@@ -25,7 +25,7 @@ public class Dialogs {
         alert.setTitle(title);
         alert.setHeaderText(heading);
         alert.setContentText(msg);
-        alert.show();
+        alert.showAndWait();
     }
 
     public static void ErrorAlert(String title,String heading,String msg)
@@ -34,7 +34,7 @@ public class Dialogs {
         alert.setTitle(title);
         alert.setHeaderText(heading);
         alert.setContentText(msg);
-        alert.show();
+        alert.showAndWait();
     }
 
     public static boolean ConformationAlert(String title,String heading,String msg)

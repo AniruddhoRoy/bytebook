@@ -18,6 +18,8 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
+import static com.example.project_7.Dialogs.ConformationAlert;
+
 public class ToDoList_Component extends Base_Component {
     private VBox root = new VBox();
     private TextField TodoListHading;
@@ -32,12 +34,12 @@ public class ToDoList_Component extends Base_Component {
     private String greenStyle = "-fx-text-fill: green;";
     private String blackStyle = "-fx-text-fill: black;";
     private String fontSize = "-fx-font-size: 15px;";
-    private String fontColor = "-fx-text-fill: gray;";
+//    private String fontColor = "-fx-text-fill: gray;";
     private void initComponet(){
         TodoListHading = new TextField();
         TodoListHading.setContextMenu(new ContextMenu());
         TodoListHading.setPromptText("Heading is not set");
-        TodoListHading.setStyle("-fx-font-size: 25px; -fx-text-fill: gray; -fx-font-weight: bold;");
+        TodoListHading.setStyle("-fx-font-size: 25px; -fx-font-weight: bold;");
         TodoListHading.setAlignment(Pos.CENTER);
         LeftBar.getChildren().add(new Label("Not Completed"));
         RightBar.getChildren().add(new Label("Completed"));
@@ -65,18 +67,9 @@ public class ToDoList_Component extends Base_Component {
         ContextMenu contextMenu = new ContextMenu();
         MenuItem delete = new MenuItem("Delete");
         delete.setOnAction(e->{
-            Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Delete To-Do List");
-            alert.setHeaderText("Are you sure?");
-            alert.setContentText("do you really want to delete this To-Do List?");
-
-            //wait for user response
-            alert.showAndWait().ifPresent(response->{
-                if(response==ButtonType.OK)
-                {
-                    delete(e);//call Base_Component delete
-                }
-            });
+            if(ConformationAlert("Delete code","Are you sure?","do you really want to delete this code?")){
+                delete(e);
+            }
         });
         contextMenu.getItems().add(delete);
         root.setOnContextMenuRequested(e->{

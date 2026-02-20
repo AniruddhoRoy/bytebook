@@ -23,6 +23,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Base64;
 
+import static com.example.project_7.Dialogs.*;
+
 public class Media_Component extends Base_Component{
     //media file path(audio/video)
     private String mediaPath = "";
@@ -66,12 +68,21 @@ public class Media_Component extends Base_Component{
             mediaPlayer.dispose();
             mediaPlayer = null;
         }
+        try{
+            media = new Media(file.toURI().toString());
+            mediaPlayer = new MediaPlayer(media);
+            mediaView = new MediaView(mediaPlayer);
+            mediaView.setPreserveRatio(true);
+            mediaView.setFitHeight(size);
+        }catch (Exception e){
+            System.out.println("Error While Loading Media");
+            System.out.println(e);
+            ErrorAlert("Error While Loading Media","Media Not Found or Breaks","");
+            return;
+        }
 
-        media = new Media(file.toURI().toString());
-        mediaPlayer = new MediaPlayer(media);
-        mediaView = new MediaView(mediaPlayer);
-        mediaView.setPreserveRatio(true);
-        mediaView.setFitHeight(size);
+        // This line binds the width of the MediaView to the width of the root container.
+        // It means the mediaView will automatically resize whenever the root's width changes,
         mediaView.fitWidthProperty().bind(root.widthProperty());
 
         addContextMenuToMediaContent();
@@ -115,8 +126,10 @@ void loadMediaHandeler(ActionEvent e){
             : new String[]{"mp3", "wav", "aac", "flac", "ogg", "m4a", "wma", "alac", "aiff", "opus"};
 
     String path = new LIB().fileOpenDialog(parentStage, types);
-    if (path == null) return;
-
+    if (path == null) {
+        WarningAlert("Warning","No Media Selected","Please select a Media file.");
+        return;
+    }
     //save selected media
     mediaPath = path;
 
@@ -131,12 +144,20 @@ void loadMediaHandeler(ActionEvent e){
     }
 
     //media load and prepare
-    media = new Media(file.toURI().toString());
-    mediaPlayer = new MediaPlayer(media);
-    mediaView = new MediaView(mediaPlayer);
-    mediaView.setPreserveRatio(true);
-    mediaView.setFitHeight(size);
-    mediaView.fitWidthProperty().bind(root.widthProperty());
+    try{
+        media = new Media(file.toURI().toString());
+        mediaPlayer = new MediaPlayer(media);
+        mediaView = new MediaView(mediaPlayer);
+        mediaView.setPreserveRatio(true);
+        mediaView.setFitHeight(size);
+        mediaView.fitWidthProperty().bind(root.widthProperty());
+    }catch (Exception ex){
+        System.out.println("Error While Loading Media");
+        System.out.println(ex);
+        ErrorAlert("Error While Loading Media","Media Not Found or Breaks","");
+        return;
+    }
+
 
     addContextMenuToMediaContent();
 
@@ -170,7 +191,11 @@ void loadMediaHandeler(ActionEvent e){
         x4.setOnAction(e -> mediaView.setFitHeight(400));
 // Add items to submenu
         size.getItems().addAll(x1, x2, x3, x4);
-        delete.setOnAction(this::delete);
+        delete.setOnAction(e->{
+            if(ConformationAlert("Delete code","Are you sure?","do you really want to delete this code?")){
+                delete(e);
+            }
+        });
         contextMenu.getItems().addAll(loadMedia, size,delete);
         mediaView.setOnContextMenuRequested(event ->{
             contextMenu.show(mediaView,event.getScreenX(), event.getScreenY());
@@ -184,6 +209,7 @@ void loadMediaHandeler(ActionEvent e){
             mediaPlayer.dispose();
         }
         root.getChildren().clear();
+        super.delete(e);
     }
     void addContextMenuTOImageVIew(){
         ContextMenu contextMenu = new ContextMenu();
@@ -200,20 +226,10 @@ void loadMediaHandeler(ActionEvent e){
         x3.setOnAction(e -> imageView.setFitHeight(300));
         x4.setOnAction(e -> imageView.setFitHeight(400));
 // Add items to submenu
-        size.getItems().addAll(x1, x2, x3, x4);
         delete.setOnAction(e->{
-            Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Delete Media");
-            alert.setHeaderText("Are you sure?");
-            alert.setContentText("do you really want to delete this Media?");
-
-            //wait for user response
-            alert.showAndWait().ifPresent(response->{
-                if(response==ButtonType.OK)
-                {
-                    delete(e);//call Base_Component delete
-                }
-            });
+            if(ConformationAlert("Delete code","Are you sure?","do you really want to delete this code?")){
+                delete(e);
+            }
         });
         contextMenu.getItems().addAll(loadMedia, size,delete);
         imageView.setOnContextMenuRequested(event ->{
