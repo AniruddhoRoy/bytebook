@@ -12,10 +12,14 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.LineNumberFactory;
 
 
 import java.io.*;
 import java.util.ArrayList;
+
+import static com.example.project_7.Dialogs.ConformationAlert;
+import static com.example.project_7.Dialogs.ErrorAlert;
 
 public class Code_Component_cpp extends Base_Component {
     private SplitPane splitPane;
@@ -60,18 +64,9 @@ public class Code_Component_cpp extends Base_Component {
 
         });
         delete.setOnAction(e->{
-            Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Delete code");
-            alert.setHeaderText("Are you sure?");
-            alert.setContentText("do you really want to delete this code?");
-
-            //wait for user response
-            alert.showAndWait().ifPresent(response->{
-                if(response==ButtonType.OK)
-                {
-                    delete(e);//call Base_Component delete
-                }
-            });
+            if(ConformationAlert("Delete code","Are you sure?","do you really want to delete this code?")){
+                delete(e);
+            }
         });
         contextMenu.getItems().addAll(size_menu,font_size_menu,run,delete);
         area.setOnContextMenuRequested(event ->{
@@ -149,7 +144,7 @@ public class Code_Component_cpp extends Base_Component {
 //        codeArea = new Custome_codeArea();
         codeArea.setWrapText(true);
         codeArea.setStyle(font_style);
-//        codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
+        codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
         if(language==Language.CPP){
             codeArea.replaceText(CONSTANTS.Cpp_default_snippet);
         } else if (language==Language.PYTHON) {
@@ -168,7 +163,8 @@ public class Code_Component_cpp extends Base_Component {
             try (FileWriter fw = new FileWriter(cppFile)) {
                 fw.write(sourceCode);
             } catch (IOException e) {
-                showError("File Error", "Unable to write temp.cpp:\n" + e.getMessage());
+                ErrorAlert("File Permission Error","Unable to write temp.cpp",e.getMessage());
+//                showError("File Error", "Unable to write temp.cpp:\n" + e.getMessage());
                 return;
             }
 
@@ -182,14 +178,15 @@ public class Code_Component_cpp extends Base_Component {
             try {
                 compileProcess = build.start();
             } catch (IOException e) {
-                showError("Compiler Error", "Failed to start g++ compiler:\n" + e.getMessage());
+                ErrorAlert("Compiler Error","Failed to start g++ compiler",e.getMessage());
+//                showError("Compiler Error", "Failed to start g++ compiler:\n" + e.getMessage());
                 return;
             }
             String compileOutput = new String(compileProcess.getInputStream().readAllBytes());
             int exitCode = compileProcess.waitFor();
             if(exitCode!=0){
-                showError("Compiler Error",compileOutput );
-
+                ErrorAlert("Compiler Error","g++ compiler error",compileOutput);
+//                showError("Compiler Error",compileOutput );
                 return ;
             }
             try {
@@ -198,11 +195,13 @@ public class Code_Component_cpp extends Base_Component {
                         "temp.exe & pause & del temp.exe & del temp.cpp & exit"
                 ).start();
             } catch (IOException e) {
-                showError("Execution Error", "Failed to open CMD:\n" + e.getMessage());
+                ErrorAlert("Execution Error","Failed to open CMD",e.getMessage());
+//                showError("Execution Error", "Failed to open CMD:\n" + e.getMessage());
             }
 
         } catch (Exception ex) {
-            showError("Unexpected Error", ex.getMessage());
+            ErrorAlert("Unexpected Error","",ex.getMessage());
+//            showError("Unexpected Error", ex.getMessage());
         }
     }
     void runPy(String sourceCode) {
@@ -213,33 +212,24 @@ public class Code_Component_cpp extends Base_Component {
             try (FileWriter fw = new FileWriter(pyFile)) {
                 fw.write(sourceCode);
             } catch (IOException e) {
-                showError("File Error", "Unable to write temp.py:\n" + e.getMessage());
+                ErrorAlert("File Permission Error","Unable to write temp.cpp",e.getMessage());
                 return;
             }
 
             // 2. Execute Python in new CMD window
             try {
-                // Works on Windows
                 Process runProcess = new ProcessBuilder(
                         "cmd.exe", "/c", "start", "cmd.exe", "/k",
                         "python temp.py & pause & del temp.py & exit"
                 ).start();
 
             } catch (IOException e) {
-                showError("Execution Error", "Failed to open CMD:\n" + e.getMessage());
+                ErrorAlert("Execution Error","Failed to open CMD",e.getMessage());
                 return;
             }
 
         } catch (Exception ex) {
-            showError("Unexpected Error", ex.getMessage());
+            ErrorAlert("Unexpected Error","",ex.getMessage());
         }
-    }
-
-    private void showError(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 }

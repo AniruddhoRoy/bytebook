@@ -82,8 +82,8 @@ public class CONSTANTS {
     };
     public static final Pair<String, String>[] fontAlignment = new Pair[] {
             new Pair<>("Left", "-fx-alignment: CENTER_LEFT;"),
-            new Pair<>("Center", "-fx-alignment: CENTER; "),
-            new Pair<>("Right", "-fx-alignment: CENTER_RIGHT; "),
+            new Pair<>("Center", "-fx-alignment: CENTER;"),
+            new Pair<>("Right", "-fx-alignment: CENTER_RIGHT;"),
 
     };
     //Media component

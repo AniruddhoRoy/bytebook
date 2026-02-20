@@ -11,6 +11,8 @@ import javafx.util.Pair;
 
 import java.util.ArrayList;
 
+import static com.example.project_7.Dialogs.ConformationAlert;
+
 
 public class Heading_Component extends Base_Component{
     VBox root;
@@ -29,7 +31,7 @@ public class Heading_Component extends Base_Component{
 
         root.getChildren().add(heading);
         ContextMenu contextMenu = new ContextMenu();
-        Menu background_menu = new Menu("Backgorund");
+        Menu background_menu = new Menu("Background");
         Menu font_weight_menu = new Menu("Font Weight");
         Menu font_size_menu = new Menu("Font Size");
         Menu font_family_menu = new Menu("Font Family");
@@ -39,18 +41,9 @@ public class Heading_Component extends Base_Component{
         //delete Menu Item
 
         delete.setOnAction(e->{
-            Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Delete Heading");
-            alert.setHeaderText("Are you sure?");
-            alert.setContentText("do you really want to delete this Heading?");
-
-            //wait for user response
-            alert.showAndWait().ifPresent(response->{
-                if(response==ButtonType.OK)
-                {
-                    delete(e);//call Base_Component delete
-                }
-            });
+            if(ConformationAlert("Delete code","Are you sure?","do you really want to delete this code?")){
+                delete(e);
+            }
         });
         //Working of Background menu
         for(Pair<String,String> color : CONSTANTS.Background_colors){
@@ -156,6 +149,7 @@ public class Heading_Component extends Base_Component{
         this.style_font_family = style_font_family;
         this.style_font_color = style_font_color;
         this.style_font_alignment = style_font_alignment;
+        loadStyle();
     }
     public VBox getHeadingComponent(){
         return root;
@@ -190,7 +184,11 @@ public class Heading_Component extends Base_Component{
                 .replace("-fx-font-weight", "font-weight")
                 .replace("-fx-font-size", "font-size")
                 .replace("-fx-font-family", "font-family")
-                .replace("-fx-text-fill", "color");
+                .replace("-fx-text-fill", "color")
+                .replace("-fx-alignment: CENTER_LEFT;", "display:flex; align-items:center; justify-content:flex-start;")
+                .replace("-fx-alignment: CENTER;", "display:flex; align-items:center; justify-content:center;")
+                .replace("-fx-alignment: CENTER_RIGHT;", "display:flex; align-items:center; justify-content:flex-end;")
+                ;
     }
     public String getHtml(){
         String combinedStyle = convertFxToHtmlCss(
@@ -198,7 +196,8 @@ public class Heading_Component extends Base_Component{
                 style_font_weight+
                 style_font_Size+
                 style_font_family+
-                style_font_color
+                style_font_color+
+                        style_font_alignment
         );
         combinedStyle+="padding: 10px;";
 
