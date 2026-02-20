@@ -77,6 +77,11 @@
             <artifactId>javafx-swing</artifactId>
             <version>22-ea+27</version>
         </dependency>
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.17.2</version>
+        </dependency>
         <!-- MY CUSTOM MOULES-->
     </dependencies>
 
